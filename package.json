@@ -1,0 +1,21 @@
+{
+  "name": "@weluvabid/iris",
+  "version": "0.1.2",
+  "description": "Minimal CSS theme tokens for OSS projects.",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "iris.css",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./iris.css"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
