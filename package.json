@@ -1,6 +1,6 @@
 {
   "name": "@weluvabid/iris",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Reusable Svelte site shell components with a Tailwind and shadcn-svelte theme.",
   "license": "MIT",
   "type": "module",
