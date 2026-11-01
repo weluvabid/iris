@@ -2,16 +2,232 @@
   color-scheme: light;
   --background: #fdfbf7;
   --foreground: #171717;
-  --accent: oklch(0.74 0.16 34.71);
-  --accent-foreground: #171717;
-  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono:  "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --iris-accent: oklch(0.74 0.16 34.71);
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  --iris-header-offset: 5.25rem;
+  --iris-content-width: 72rem;
+  --iris-shell-gutter: 1rem;
+  --iris-z-header: 40;
+  --iris-z-sticky: 30;
 }
 
 .dark {
   color-scheme: dark;
   --background: #000000;
   --foreground: #f5f5f5;
-  --accent: oklch(0.74 0.16 34.71);
-  --accent-foreground: #171717;
+}
+
+.iris-container {
+  width: min(
+    calc(100% - var(--iris-shell-gutter) - var(--iris-shell-gutter)),
+    var(--iris-content-width)
+  );
+  margin-inline: auto;
+}
+
+.iris-header {
+  position: sticky;
+  z-index: var(--iris-z-header);
+  top: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--background) 88%, transparent);
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  border-radius: 9999px;
+  box-shadow: 0 8px 28px rgb(0 0 0 / 8%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.iris-header__brand,
+.iris-header__link,
+.iris-header__action,
+.iris-footer__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.iris-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  font-weight: 650;
+}
+
+.iris-header__brand img,
+.iris-footer__brand img {
+  display: block;
+  width: 1.375rem;
+  height: 1.375rem;
+  object-fit: contain;
+}
+
+.iris-header__nav,
+.iris-header__actions,
+.iris-footer__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.iris-header__link,
+.iris-header__action,
+.iris-footer__link {
+  display: inline-flex;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.75rem;
+  color: color-mix(in srgb, var(--foreground) 68%, transparent);
+  border-radius: 9999px;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.iris-header__link:hover,
+.iris-header__action:hover,
+.iris-footer__link:hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 7%, transparent);
+}
+
+.iris-header__link:focus-visible,
+.iris-header__action:focus-visible,
+.iris-footer__link:focus-visible,
+.iris-header__brand:focus-visible {
+  outline: 2px solid var(--iris-accent);
+  outline-offset: 3px;
+}
+
+.iris-header__action svg,
+.iris-footer__link svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.iris-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.5rem;
+  color: color-mix(in srgb, var(--foreground) 62%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+  font-size: 0.875rem;
+}
+
+.iris-footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--foreground);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.iris-sticky-pill {
+  position: sticky;
+  z-index: var(--iris-z-sticky);
+  top: var(--iris-header-offset);
+  display: flex;
+  width: fit-content;
+  max-width: calc(100% - 2rem);
+  align-items: center;
+  justify-content: center;
+  margin: 0.75rem auto 2rem;
+}
+
+.iris-sticky-pill__sentinel {
+  display: block;
+  width: 1px;
+  height: 1px;
+}
+
+.iris-sticky-pill__content {
+  display: inline-flex;
+  max-width: 100%;
+  min-height: 2rem;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.8rem;
+  overflow: hidden;
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--background) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+  border-radius: 9999px;
+  box-shadow: 0 4px 18px rgb(0 0 0 / 7%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.045em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.iris-sticky-pill[data-pinned='true'] .iris-sticky-pill__content {
+  min-height: 1.75rem;
+  padding-block: 0.25rem;
+  font-size: 0.625rem;
+}
+
+.iris-sticky-pill__dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  flex: 0 0 0.375rem;
+  background: var(--iris-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--iris-accent) 28%, transparent);
+  animation: iris-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes iris-pulse {
+  50% {
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--iris-accent) 9%, transparent);
+    opacity: 0.8;
+  }
+}
+
+@media (max-width: 36rem) {
+  .iris-header {
+    padding-inline: 0.625rem;
+  }
+
+  .iris-header__nav {
+    gap: 0;
+  }
+
+  .iris-header__link {
+    min-width: 2.5rem;
+    padding-inline: 0.5rem;
+    font-size: 0.8125rem;
+  }
+}
+
+.iris-sticky-pill[data-pinned='true'] .iris-sticky-pill__content {
+  min-height: 1.75rem;
+  padding-block: 0.25rem;
+  font-size: 0.625rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iris-sticky-pill__dot {
+    animation: none;
+  }
+
+  .iris-header__link,
+  .iris-header__action,
+  .iris-footer__link {
+    transition: none;
+  }
 }
