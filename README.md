@@ -153,15 +153,6 @@ The check runs ESLint, Prettier, Svelte/TypeScript diagnostics, unit tests, a de
 
 The npm package contains only `src/lib`, `src/styles`, theme helpers and declarations, the README, and the MIT license. Demo files, repository scripts, tests, workflows, and configuration are excluded.
 
-## Release
-
-Publishing is a deliberate maintainer action after reviewing the packed artifact:
-
-```sh
-pnpm pack
-npm publish --access public
-```
-
 ## License
 
 MIT. The project code is MIT-licensed. The bundled Atkinson Hyperlegible font files retain their separate license in `src/styles/fonts/LICENSE.txt`.
