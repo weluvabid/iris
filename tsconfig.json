@@ -23,8 +23,9 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.svelte",
-    "playground/**/*.ts",
-    "playground/**/*.svelte",
+    "demo/**/*.js",
+    "demo/**/*.ts",
+    "demo/**/*.svelte",
     "tests/**/*.ts",
     "vite.config.ts"
   ]

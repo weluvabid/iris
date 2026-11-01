@@ -1,9 +1,15 @@
 import { spawnSync } from 'node:child_process';
 
 const result = spawnSync('git', ['rev-parse', '--is-inside-work-tree'], { stdio: 'ignore' });
-if (result.status !== 0) process.exit(0);
+
+if (result.status !== 0) {
+  process.exit(0);
+}
 
 const configured = spawnSync('git', ['config', 'core.hooksPath', '.githooks'], {
   stdio: 'inherit',
 });
-if (configured.status !== 0) process.exit(configured.status ?? 1);
+
+if (configured.status !== 0) {
+  process.exit(configured.status ?? 1);
+}

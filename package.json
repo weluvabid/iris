@@ -10,7 +10,9 @@
   },
   "files": [
     "src/lib",
-    "src/theme.css",
+    "src/styles",
+    "src/theme.js",
+    "src/theme.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -18,18 +20,26 @@
     ".": {
       "types": "./src/lib/index.d.ts",
       "svelte": "./src/lib/index.js",
+      "import": "./src/lib/index.js",
       "default": "./src/lib/index.js"
     },
     "./components": {
       "types": "./src/lib/index.d.ts",
       "svelte": "./src/lib/index.js",
+      "import": "./src/lib/index.js",
       "default": "./src/lib/index.js"
     },
-    "./package.json": "./package.json",
-    "./theme.css": "./src/theme.css"
+    "./theme": {
+      "types": "./src/theme.d.ts",
+      "import": "./src/theme.js",
+      "default": "./src/theme.js"
+    },
+    "./theme.css": "./src/styles/theme.css",
+    "./package.json": "./package.json"
   },
   "sideEffects": [
-    "**/*.svelte"
+    "**/*.svelte",
+    "**/*.css"
   ],
   "publishConfig": {
     "access": "public"
@@ -39,6 +49,7 @@
     "build": "node ./scripts/build.mjs",
     "check:types": "svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
@@ -66,7 +77,6 @@
     "vite": "^7.3.7",
     "vitest": "^5.0.5"
   },
-  "packageManager": "pnpm@12.0.0",
   "peerDependencies": {
     "svelte": "^5.0.0"
   },
@@ -81,5 +91,6 @@
     "bits-ui": "^2.20.2",
     "cn": "^0.5.0",
     "tailwind-variants": "^3.3.1"
-  }
+  },
+  "packageManager": "pnpm@12.0.0"
 }

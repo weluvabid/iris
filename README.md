@@ -1,12 +1,13 @@
 # Iris
 
-A small visual foundation and reusable site shell for independent OSS projects. Iris provides theme tokens, accessible Svelte 5 shell components, and framework-independent theme helpers without pulling in an icon library, CSS framework, or component toolkit.
+A reusable Svelte 5 site shell for independent open-source projects. Iris provides a responsive header, footer, sticky status pill, semantic theme tokens, and small theme helpers.
 
 ## Requirements
 
 - Node.js 26 or newer
 - pnpm 12 or newer
-- Svelte 5 for the optional component entry point
+- Svelte 5 in applications using the component entry point
+- Tailwind CSS 4 in applications that consume the utility-class components
 
 ## Install
 
@@ -14,158 +15,147 @@ A small visual foundation and reusable site shell for independent OSS projects. 
 pnpm add @weluvabid/iris
 ```
 
-Import the CSS once in your application stylesheet:
+Import the theme stylesheet once in your application CSS:
 
 ```css
-@import '@weluvabid/iris';
+@import 'tailwindcss';
+@import '@weluvabid/iris/theme.css';
 ```
 
-The root package export remains CSS-only and has no JavaScript runtime dependency.
+The stylesheet defines semantic colour and typography tokens plus the small amount of CSS that Tailwind cannot express cleanly: the masked perimeter gradient, its external glow, and the status-dot keyframes. The header surface itself remains opaque and theme-controlled.
+
+## Fonts
+
+Atkinson Hyperlegible Regular and Bold are included as original, unmodified OpenType files. The theme stylesheet references them using relative URLs, so Vite and other CSS-aware bundlers can emit the font assets into the consuming application's build. If you serve the stylesheet directly without a bundler, keep the `fonts/` directory beside `theme.css`.
+
+The font assets are distributed under the Atkinson Hyperlegible Font License. Its full notice is included at `src/styles/fonts/LICENSE.txt`; the font files are not relicensed under Iris's MIT license. Iris does not make requests to Google Fonts or any other external font host.
 
 ## Theme tokens
 
-Iris owns a deliberately small set of design tokens:
+Iris exposes shadcn-compatible semantic tokens in light and dark modes. Add or remove `.dark` on the document root to switch palettes.
 
-| Token           | Light             | Dark              |
-| --------------- | ----------------- | ----------------- |
-| `--background`  | `#FDFBF7`         | `#000000`         |
-| `--foreground`  | `#171717`         | `#F5F5F5`         |
-| `--iris-accent` | coral             | coral             |
-| `--font-sans`   | Geist/system      | Geist/system      |
-| `--font-mono`   | Geist Mono/system | Geist Mono/system |
+| Token          | Light     | Dark      |
+| -------------- | --------- | --------- |
+| `--background` | `#FAFAF8` | `#090906` |
+| `--foreground` | `#20201E` | `#E8E7E3` |
+| `--primary`    | `#D96C16` | `#FC8B24` |
+| `--border`     | `#E8E7E1` | `#27271F` |
 
-Add `.dark` to the document root to enable dark mode. Iris intentionally does not redefine shadcn's `--accent` / `--accent-foreground` semantic surface tokens or its neutral palette. The coral brand accent is exposed as `--iris-accent`.
-
-## Site shell components
-
-The Svelte 5 components are available through the optional subpath. Svelte is an optional peer dependency, so CSS-only consumers do not install it:
+## Components
 
 ```svelte
 <script lang="ts">
   import { SiteHeader, SiteFooter, StickyPill } from '@weluvabid/iris/components';
-  import { getInitialTheme, toggleTheme } from '@weluvabid/iris/theme';
+  import type { SiteFooterLink, SiteHeaderLink } from '@weluvabid/iris/components';
 
-  let theme = $state(getInitialTheme());
+  let darkMode = $state(false);
 
-  function toggleThemeMode() {
-    theme = toggleTheme(theme);
-  }
+  const headerLinks: SiteHeaderLink[] = [
+    { label: 'Documentation', href: '/docs' },
+    { label: 'API', href: '/api' },
+  ];
+
+  const footerLinks: SiteFooterLink[] = [
+    { label: 'GitHub', href: 'https://github.com/owner/repository', external: true },
+    { label: 'Issues', href: 'https://github.com/owner/repository/issues', external: true },
+  ];
 </script>
 
-<div class="iris-container">
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6">
   <SiteHeader
     brand="My Project"
     homeHref="/"
-    logoSrc="/logo.svg"
     githubUrl="https://github.com/owner/repository"
-    navLinks={[
-      { label: 'Documentation', href: '/docs' },
-      { label: 'API', href: '/api' },
-    ]}
-    {theme}
-    onToggleTheme={toggleThemeMode}
+    links={headerLinks}
+    {darkMode}
+    onToggleTheme={() => (darkMode = !darkMode)}
   />
 
   <StickyPill label="OPEN SOURCE PROJECT" />
 
-  <main>
-    <!-- Project-owned content goes here. -->
-  </main>
+  <main><!-- Project-owned content. --></main>
 
-  <SiteFooter
-    brand="My Project"
-    logoSrc="/logo.svg"
-    links={[
-      { label: 'GitHub', href: 'https://github.com/owner/repository', external: true },
-      { label: 'Issues', href: 'https://github.com/owner/repository/issues', external: true },
-    ]}
-  />
+  <SiteFooter brand="My Project" links={footerLinks} />
 </div>
 ```
 
-### SiteHeader props
+### `SiteHeader`
 
-- `brand` (required): project name shown beside the optional logo.
+- `brand` (required): accessible brand link text.
 - `homeHref`, `logoSrc`, `logoAlt`: brand destination and optional logo.
-- `navLinks`: `{ label, href, external?, current? }[]`.
-- `githubUrl`: optional GitHub destination with an accessible icon link.
-- `theme`: current `light` or `dark` value.
-- `onToggleTheme`: optional callback; when omitted, no theme control is rendered.
-- `actions`: optional Svelte snippet for consumer-owned actions.
-- `class`: additional class on the header root.
+- `links`: `{ label, href, external?, title?, ariaLabel?, icon? }[]`.
+- `githubUrl`: optional GitHub icon link.
+- `darkMode`: current theme state.
+- `onToggleTheme`: theme toggle callback.
 
-### SiteFooter props
+### `SiteFooter`
 
-- `brand`, `homeHref`, `logoSrc`: optional brand identity.
-- `links`: `{ label, href, external? }[]`; labels remain visible and accessible.
-- `copyright`: optional text when no brand is supplied.
-- `class`: additional class on the footer root.
+- `brand` (required): accessible brand link text.
+- `homeHref`, `logoSrc`: optional brand destination and logo.
+- `links`: `{ label, href, external?, title?, ariaLabel?, icon? }[]`.
 
-### StickyPill props
+### `StickyPill`
 
-- `label`: text to display; omit it to render the default slot.
-- `showIndicator`: show the restrained coral status dot (default `true`).
-- `compactOnScroll`: observe the sentinel and expose `data-pinned="true"` after it scrolls past the observer threshold.
-- `class`: additional class on the pill root.
+- `label` (required): text displayed in the pill.
+- `compactOnScroll` (default `true`): observe a one-pixel sentinel and compact the pill after it crosses the header threshold.
+- `children`: optional Svelte snippet to replace the label content.
 
-The pill wrapper itself is `fit-content`, horizontally centred, and constrained to the viewport. It does not create a full-width sticky interception layer.
-
-Iris components use their own small CSS class surface (`iris-header`, `iris-footer`, `iris-sticky-pill`). They do not require Tailwind, shadcn-svelte, Lucide, or an icon package. Consumers can override the classes or pass their own `class` value.
+Icon-only links use accessible names and shared tooltips. Keyboard focus is visible; hover surfaces remain neutral. The perimeter gradient is limited to the header outline, while the wordmark remains monochrome.
 
 ## Theme helpers
 
-The framework-independent helpers are available separately:
+Import framework-independent helpers from the dedicated subpath:
 
 ```ts
-import { applyTheme, createThemeScript, getInitialTheme, toggleTheme } from '@weluvabid/iris/theme';
+import {
+  applyTheme,
+  createThemeScript,
+  getInitialTheme,
+  toggleTheme,
+  toggleThemeValue,
+} from '@weluvabid/iris/theme';
 
 const theme = getInitialTheme();
 applyTheme(theme);
 
-// In an event handler:
-toggleTheme(theme);
+// In an event handler, this applies and persists the opposite theme.
+theme = toggleTheme(theme);
 
-// Use this in an inline script in <head> to avoid a theme flash before hydration:
-const bootstrap = createThemeScript();
+// Pure state transition for Svelte state or other application state.
+const nextTheme = toggleThemeValue(theme);
+
+// Add this returned script to the document head before styles to avoid a theme flash.
+const bootstrapScript = createThemeScript();
 ```
 
-`getInitialTheme` prefers a valid stored preference and otherwise uses `prefers-color-scheme`. `applyTheme` updates the root class, `color-scheme`, background and optional theme-color meta tag; storage failures do not prevent the visual change. The default storage key is `iris-theme`. Pass `{ storageKey: 'your-project-theme' }` to use a project-specific key.
+`getInitialTheme` prefers a valid stored preference, then `prefers-color-scheme`. `applyTheme` updates the root class, `color-scheme`, and optional theme-colour meta tag. Storage failures never prevent the visual theme update. The default storage key is `iris-theme`; pass `{ storageKey: 'your-project-theme' }` to use another key.
 
-For a no-flash bootstrap, render the returned script string in the document head before styles and application code. The helper validates the storage key before generating executable source.
+## Demo and development
 
-## Layout utilities
-
-The CSS entry point includes a few opt-in classes:
-
-- `.iris-container`: centred responsive container using `--iris-content-width` and `--iris-shell-gutter`.
-- `.iris-header`: floating translucent sticky header.
-- `.iris-footer`: restrained footer layout.
-- `.iris-sticky-pill`: content-width sticky pill.
-
-No global line-height, letter-spacing, element reset, or shadcn semantic palette is imposed.
-
-## Development
-
-Run the visual shell preview locally (no Vite or demo dependencies required):
-
-```sh
-pnpm dev
-```
-
-Open `http://localhost:4173` to inspect the header, centred sticky pill, empty content area, footer, responsive layout, and light/dark theme toggle. The preview is a standalone HTML fixture that mirrors the public component markup; it is excluded from the published npm package.
-
-Run the package quality gates with:
+The `demo/` directory contains the long-form page used to exercise scrolling, sticky positioning, responsive layout, and both themes. It is not included in the published package.
 
 ```sh
 pnpm install
+pnpm dev
+```
+
+Open the local Vite URL to inspect the demo.
+
+Run all quality gates with:
+
+```sh
 pnpm check
 ```
 
-`pnpm check` runs ESLint, Prettier validation, TypeScript declaration checks, tests, Svelte compilation and npm package-content verification. Git hooks are installed automatically on local install and enforce the fast quality gates plus Conventional Commit subjects.
+The check runs ESLint, Prettier, Svelte/TypeScript diagnostics, unit tests, a demo build, and package-content validation. Git hooks enforce the fast quality gates and Conventional Commit subjects.
+
+## Package contents
+
+The npm package contains only `src/lib`, `src/styles`, theme helpers and declarations, the README, and the MIT license. Demo files, repository scripts, tests, workflows, and configuration are excluded.
 
 ## Release
 
-The package is intentionally a single-package repository. CI runs on Node 26 with a frozen pnpm lockfile. Publishing is a deliberate maintainer action after reviewing the packed artifact:
+Publishing is a deliberate maintainer action after reviewing the packed artifact:
 
 ```sh
 pnpm pack
@@ -174,4 +164,4 @@ npm publish --access public
 
 ## License
 
-MIT
+MIT. The project code is MIT-licensed. The bundled Atkinson Hyperlegible font files retain their separate license in `src/styles/fonts/LICENSE.txt`.

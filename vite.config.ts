@@ -4,8 +4,11 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  root: 'demo',
   plugins: [tailwindcss(), svelte()],
   build: {
+    outDir: '../dist',
+    emptyOutDir: true,
     target: 'es2022',
     minify: 'esbuild',
     cssMinify: true,

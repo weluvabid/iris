@@ -1,15 +1,7 @@
 import type { Component, Snippet } from 'svelte';
+import type { SiteFooterLink, SiteHeaderLink } from './types.js';
 
-export type SiteHeaderLink = {
-  label: string;
-  href: string;
-  external?: boolean;
-  title?: string;
-  ariaLabel?: string;
-  icon?: Component;
-};
-
-export type SiteFooterLink = SiteHeaderLink;
+export type { SiteFooterLink, SiteHeaderLink };
 
 export type SiteHeaderProps = {
   brand: string;

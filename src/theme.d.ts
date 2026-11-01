@@ -11,12 +11,14 @@ export type ThemeOptions = {
   storage?: ThemeStorage;
   root?: HTMLElement;
   metaThemeColor?: boolean;
-  lightColor?: string;
-  darkColor?: string;
+  media?: { matches: boolean };
 };
 
+export declare function isTheme(value: unknown): value is IrisTheme;
+export declare function resolveInitialTheme(storedTheme: unknown, prefersDark: boolean): IrisTheme;
+export declare function toggleThemeValue(currentTheme: IrisTheme): IrisTheme;
 export declare function getInitialTheme(
-  options?: Pick<ThemeOptions, 'storageKey' | 'storage'> & { media?: { matches: boolean } },
+  options?: Pick<ThemeOptions, 'storageKey' | 'storage' | 'media'>,
 ): IrisTheme;
 export declare function applyTheme(theme: IrisTheme, options?: ThemeOptions): IrisTheme;
 export declare function toggleTheme(currentTheme: IrisTheme, options?: ThemeOptions): IrisTheme;
