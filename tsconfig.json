@@ -27,6 +27,6 @@
     "demo/**/*.ts",
     "demo/**/*.svelte",
     "tests/**/*.ts",
-    "vite.config.ts"
+    "vite.demo.config.ts"
   ]
 }

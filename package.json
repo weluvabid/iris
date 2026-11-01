@@ -51,8 +51,9 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
+    "dev": "vite --config vite.demo.config.ts --host 127.0.0.1",
     "build": "node ./scripts/build.mjs",
+    "build:demo": "vite build --config vite.demo.config.ts",
     "check:types": "svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
@@ -60,7 +61,7 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "check:pack": "node ./scripts/check-pack.mjs",
-    "check": "pnpm lint && pnpm format:check && pnpm check:types && pnpm test && pnpm build && pnpm check:pack",
+    "check": "pnpm lint && pnpm format:check && pnpm check:types && pnpm test && pnpm build && pnpm build:demo && pnpm check:pack",
     "prepare": "node ./scripts/install-hooks.mjs"
   },
   "devDependencies": {

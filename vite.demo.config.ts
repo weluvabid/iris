@@ -1,12 +1,19 @@
 import { fileURLToPath } from 'node:url';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
+import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: process.env.GITHUB_PAGES === 'true' ? '/iris/' : '/',
   root: 'demo',
-  plugins: [tailwindcss(), svelte()],
+  base: process.env.GITHUB_PAGES === 'true' ? '/iris/' : '/',
+  plugins: [
+    tailwindcss(),
+    svelte({
+      preprocess: vitePreprocess({
+        script: true,
+      }),
+    }),
+  ],
   build: {
     outDir: '../dist',
     emptyOutDir: true,
