@@ -22,6 +22,10 @@ export default tseslint.config(
     },
   },
   {
+    files: ['playground/src/**/*.{js,ts}'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+  },
+  {
     files: ['scripts/**/*.mjs'],
     rules: { 'no-console': 'off' },
   },

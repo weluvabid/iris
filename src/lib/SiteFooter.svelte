@@ -1,57 +1,57 @@
 <script lang="ts">
-  type IrisFooterLink = {
+  import type { Component } from 'svelte';
+
+  export type SiteFooterLink = {
     label: string;
     href: string;
     external?: boolean;
+    title?: string;
+    ariaLabel?: string;
+    icon?: Component;
   };
 
   type Props = {
-    brand?: string;
+    brand: string;
     homeHref?: string;
     logoSrc?: string;
-    links?: IrisFooterLink[];
-    copyright?: string;
-    class?: string;
+    links?: SiteFooterLink[];
   };
 
-  let {
-    brand,
-    homeHref = '/',
-    logoSrc,
-    links = [],
-    copyright,
-    class: className = '',
-  }: Props = $props();
+  let { brand, homeHref = '/', logoSrc, links = [] }: Props = $props();
 </script>
 
-<footer class="iris-footer {className}">
-  {#if brand || logoSrc}
-    <a class="iris-footer__brand" href={homeHref}>
-      {#if logoSrc}<img src={logoSrc} alt="" width="20" height="20" />{/if}
-      {#if brand}<span>{brand}</span>{/if}
-    </a>
-  {:else if copyright}
-    <span>{copyright}</span>
-  {/if}
-
-  {#if copyright && (brand || logoSrc)}
-    <span>{copyright}</span>
-  {/if}
-
-  {#if links.length > 0}
-    <nav class="iris-footer__nav" aria-label="Project resources">
-      {#each links as link (link.href)}
-        <a
-          class="iris-footer__link"
-          href={link.href}
-          aria-label={link.external ? `${link.label} (opens in a new tab)` : link.label}
-          title={link.label}
-          target={link.external ? '_blank' : undefined}
-          rel={link.external ? 'noopener noreferrer' : undefined}
-        >
-          {link.label}
-        </a>
-      {/each}
-    </nav>
-  {/if}
+<footer
+  class="border-border/80 text-muted-foreground flex flex-wrap items-center justify-between gap-4 border-t py-6 text-sm"
+>
+  <a
+    class="text-foreground inline-flex items-center gap-2 font-semibold"
+    href={homeHref}
+    aria-label={`${brand} home`}
+  >
+    {#if logoSrc}
+      <img src={logoSrc} alt="" width="20" height="20" class="size-5 dark:invert" />
+    {:else}
+      <span>{brand}</span>
+    {/if}
+  </a>
+  <nav class="flex items-center gap-1" aria-label="Project resources">
+    {#each links as link (link.href)}
+      <a
+        class="text-muted-foreground surface-transition hover:bg-muted hover:text-foreground focus-visible:outline-ring inline-flex size-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95"
+        href={link.href}
+        target={link.external ? '_blank' : undefined}
+        rel={link.external ? 'noopener noreferrer' : undefined}
+        aria-label={link.ariaLabel ??
+          (link.external ? `${link.label} (opens in a new tab)` : link.label)}
+        title={link.title ?? link.label}
+      >
+        {#if link.icon}
+          {@const Icon = link.icon}
+          <Icon size={19} aria-hidden="true" />
+        {:else}
+          <span class="px-2 text-xs font-medium">{link.label}</span>
+        {/if}
+      </a>
+    {/each}
+  </nav>
 </footer>

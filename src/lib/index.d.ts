@@ -1,47 +1,43 @@
 import type { Component, Snippet } from 'svelte';
 
-export type IrisNavLink = {
+export type SiteHeaderLink = {
   label: string;
   href: string;
   external?: boolean;
-  current?: boolean;
+  title?: string;
+  ariaLabel?: string;
+  icon?: Component;
 };
 
-export type IrisFooterLink = {
-  label: string;
-  href: string;
-  external?: boolean;
-};
+export type SiteFooterLink = SiteHeaderLink;
 
 export type SiteHeaderProps = {
   brand: string;
   homeHref?: string;
   logoSrc?: string;
   logoAlt?: string;
-  navLinks?: IrisNavLink[];
+  links?: SiteHeaderLink[];
   githubUrl?: string;
-  theme?: 'light' | 'dark';
-  onToggleTheme?: () => void;
-  actions?: Snippet;
-  class?: string;
+  darkMode: boolean;
+  onToggleTheme: () => void;
 };
 
 export type SiteFooterProps = {
-  brand?: string;
+  brand: string;
   homeHref?: string;
   logoSrc?: string;
-  links?: IrisFooterLink[];
-  copyright?: string;
-  class?: string;
+  links?: SiteFooterLink[];
 };
 
 export type StickyPillProps = {
-  label?: string;
-  showIndicator?: boolean;
+  label: string;
   compactOnScroll?: boolean;
-  class?: string;
+  children?: Snippet;
 };
 
 export declare const SiteHeader: Component<SiteHeaderProps>;
 export declare const SiteFooter: Component<SiteFooterProps>;
 export declare const StickyPill: Component<StickyPillProps>;
+
+export * as Badge from './components/ui/badge/index.js';
+export * as Tooltip from './components/ui/tooltip/index.js';

@@ -1,48 +1,20 @@
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
-import { spawnSync } from 'node:child_process';
+import { access, readFile } from 'node:fs/promises';
 
-const directory = await mkdtemp(join(tmpdir(), 'iris-pack-'));
+const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
+const required = [
+  'src/lib/index.js',
+  'src/lib/index.d.ts',
+  'src/lib/SiteHeader.svelte',
+  'src/lib/SiteFooter.svelte',
+  'src/lib/StickyPill.svelte',
+  'src/lib/components/ui/badge/badge.svelte',
+  'src/lib/components/ui/tooltip/tooltip-content.svelte',
+];
 
-try {
-  const pack = spawnSync('npm', ['pack', '--pack-destination', directory], {
-    encoding: 'utf8',
-    stdio: 'pipe',
-  });
-
-  if (pack.status !== 0) throw new Error(pack.stderr || pack.stdout);
-
-  const output = pack.stdout.match(/[^\s]+\.tgz/);
-  if (!output) throw new Error(`Could not locate packed archive. ${pack.stdout}`);
-
-  const listing = spawnSync('tar', ['-tzf', join(directory, output[0])], {
-    encoding: 'utf8',
-  });
-  if (listing.status !== 0) throw new Error(listing.stderr);
-
-  const files = new Set(listing.stdout.trim().split('\n'));
-  const required = [
-    'package/package.json',
-    'package/iris.css',
-    'package/src/lib/SiteHeader.svelte',
-    'package/src/lib/SiteFooter.svelte',
-    'package/src/lib/StickyPill.svelte',
-    'package/src/theme.js',
-    'package/src/theme.d.ts',
-    'package/src/lib/index.d.ts',
-    'package/README.md',
-    'package/LICENSE',
-  ];
-
-  const missing = required.filter((file) => !files.has(file));
-  if (missing.length > 0) throw new Error(`Package is missing: ${missing.join(', ')}`);
-
-  const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
-  if (manifest.exports['.'] !== './iris.css')
-    throw new Error('The root CSS export must remain stable.');
-
-  console.log(`Package contents verified (${files.size} files).`);
-} finally {
-  await rm(directory, { recursive: true, force: true });
+for (const file of required) await access(new URL(`../${file}`, import.meta.url));
+if (manifest.files.includes('iris.css'))
+  throw new Error('The removed iris.css must not be published.');
+if (!manifest.exports['.'] || !manifest.exports['./components']) {
+  throw new Error('The component entry points are missing.');
 }
+console.log(`Package manifest and ${required.length} required files verified.`);

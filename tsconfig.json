@@ -11,7 +11,21 @@
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["node"]
+    "types": ["node", "svelte"],
+    "baseUrl": ".",
+    "paths": {
+      "$lib": ["./src/lib"],
+      "$lib/*": ["./src/lib/*"]
+    }
   },
-  "include": ["src/**/*.js", "src/**/*.d.ts", "src/**/*.svelte", "tests/**/*.ts"]
+  "include": [
+    "src/**/*.js",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.svelte",
+    "playground/**/*.ts",
+    "playground/**/*.svelte",
+    "tests/**/*.ts",
+    "vite.config.ts"
+  ]
 }
