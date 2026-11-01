@@ -181,7 +181,8 @@
   top: 0.75rem;
   isolation: isolate;
   border: 1px solid transparent;
-  background-color: var(--background);
+  backdrop-filter: blur(10px);
+  background: hsl(var(--background) / 0.94);
   background-clip: padding-box;
 }
 

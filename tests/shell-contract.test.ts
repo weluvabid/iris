@@ -23,7 +23,7 @@ describe('Iris shell contract', () => {
     expect(theme).toContain('.iris-header::before');
     expect(theme).toContain('.iris-header::after');
     expect(theme).toContain('mask-composite: exclude');
-    expect(theme).toContain('background-color: var(--background)');
+    expect(theme).toContain('background: hsl(var(--background) / 0.94)');
     expect(brand).toContain('text-foreground');
     expect(brand).not.toContain('iris-brand');
   });

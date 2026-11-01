@@ -43,7 +43,7 @@ describe('Iris theme contract', () => {
     expect(css).toContain('.iris-header::before');
     expect(css).toContain('.iris-header::after');
     expect(css).toContain('mask-composite: exclude');
-    expect(css).toContain('background-color: var(--background)');
+    expect(css).toContain('background: hsl(var(--background) / 0.94)');
     expect(css).toContain('--iris-header-glow-opacity: 0.11');
     expect(css).toContain('--iris-header-glow-opacity: 0.2');
   });
