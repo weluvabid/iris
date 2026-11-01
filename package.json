@@ -41,6 +41,18 @@
       "svelte": "./src/lib/components/ui/*/index.js",
       "import": "./src/lib/components/ui/*/index.js",
       "default": "./src/lib/components/ui/*/index.js"
+    },
+    "./lucide": {
+      "types": "./src/lib/icons/lucide.d.ts",
+      "svelte": "./src/lib/icons/lucide.js",
+      "import": "./src/lib/icons/lucide.js",
+      "default": "./src/lib/icons/lucide.js"
+    },
+    "./simple-icons": {
+      "types": "./src/lib/icons/simple-icons.d.ts",
+      "svelte": "./src/lib/icons/simple-icons.js",
+      "import": "./src/lib/icons/simple-icons.js",
+      "default": "./src/lib/icons/simple-icons.js"
     }
   },
   "sideEffects": [

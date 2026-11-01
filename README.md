@@ -102,6 +102,38 @@ Iris exposes shadcn-compatible semantic tokens in light and dark modes. Add or r
 
 Icon-only links use accessible names and shared tooltips. Keyboard focus is visible; hover surfaces remain neutral. The perimeter gradient is limited to the header outline, while the wordmark remains monochrome.
 
+## Icons
+
+Iris exposes the complete icon collections from Lucide and Simple Icons through
+separate entry points. Both entry points re-export the upstream Svelte
+components and preserve their original component APIs.
+
+Import only the icons your application uses:
+
+```svelte
+<script lang="ts">
+  import { Search, Menu } from '@weluvabid/iris/lucide';
+  import { SiGithub, SiSvelte } from '@weluvabid/iris/simple-icons';
+</script>
+
+<Search size={20} />
+<Menu size={20} />
+<SiGithub size={20} />
+<SiSvelte size={20} />
+```
+
+The icon collections are deliberately not re-exported from the root
+`@weluvabid/iris` entry point. Keeping them on dedicated subpaths prevents icon
+exports from becoming part of the general component entry point and allows
+consumer bundlers to tree-shake unused named exports.
+
+- `@weluvabid/iris/lucide` — named exports from `@lucide/svelte`.
+- `@weluvabid/iris/simple-icons` — named exports from
+  `@icons-pack/svelte-simple-icons` (for example, `SiGithub` and `SiSvelte`).
+
+Iris depends on these icon packages and exposes them as part of its public API;
+consuming applications do not need to install them separately.
+
 ## Theme helpers
 
 Import framework-independent helpers from the dedicated subpath:

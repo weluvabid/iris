@@ -6,6 +6,10 @@ const manifest = JSON.parse(await readFile(new URL('../package.json', import.met
 const requiredFiles = [
   'src/lib/index.js',
   'src/lib/index.d.ts',
+  'src/lib/icons/lucide.js',
+  'src/lib/icons/lucide.d.ts',
+  'src/lib/icons/simple-icons.js',
+  'src/lib/icons/simple-icons.d.ts',
   'src/lib/SiteHeader.svelte',
   'src/lib/SiteFooter.svelte',
   'src/lib/StickyPill.svelte',
@@ -28,7 +32,15 @@ for (const file of requiredFiles) {
   await access(new URL(file, packageRoot));
 }
 
-for (const exportPath of ['.', './components', './theme', './theme.css', './package.json']) {
+for (const exportPath of [
+  '.',
+  './components',
+  './lucide',
+  './simple-icons',
+  './theme',
+  './theme.css',
+  './package.json',
+]) {
   if (!manifest.exports[exportPath]) {
     throw new Error(`Missing package export: ${exportPath}`);
   }
