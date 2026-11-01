@@ -35,7 +35,13 @@
       "default": "./src/theme.js"
     },
     "./theme.css": "./src/styles/theme.css",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./components/ui/*": {
+      "types": "./src/lib/components/ui/*/index.ts",
+      "svelte": "./src/lib/components/ui/*/index.js",
+      "import": "./src/lib/components/ui/*/index.js",
+      "default": "./src/lib/components/ui/*/index.js"
+    }
   },
   "sideEffects": [
     "**/*.svelte",

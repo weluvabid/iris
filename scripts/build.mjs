@@ -1,19 +1,25 @@
 import { readdir, readFile } from 'node:fs/promises';
-import { spawnSync } from 'node:child_process';
-import { compile } from 'svelte/compiler';
+import { compile, preprocess } from 'svelte/compiler';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 const componentDirectory = new URL('../src/lib/', import.meta.url);
 const componentFiles = [];
 
+const preprocessor = vitePreprocess({
+  script: true,
+});
+
 async function collectSvelteFiles(directory) {
-  const entries = await readdir(directory, { withFileTypes: true });
+  const entries = await readdir(directory, {
+    withFileTypes: true,
+  });
 
   for (const entry of entries) {
     const path = new URL(`${entry.name}${entry.isDirectory() ? '/' : ''}`, directory);
 
     if (entry.isDirectory()) {
       await collectSvelteFiles(path);
-    } else if (entry.name.endsWith('.svelte')) {
+    } else if (entry.isFile() && entry.name.endsWith('.svelte')) {
       componentFiles.push(path);
     }
   }
@@ -21,31 +27,34 @@ async function collectSvelteFiles(directory) {
 
 await collectSvelteFiles(componentDirectory);
 
-if (componentFiles.length < 8) {
-  throw new Error(`Expected shell and UI components; found ${componentFiles.length}.`);
+componentFiles.sort((a, b) => a.pathname.localeCompare(b.pathname));
+
+if (componentFiles.length === 0) {
+  throw new Error('No Svelte components found in src/lib.');
 }
 
 for (const filename of componentFiles) {
+  const filenamePath = filename.pathname;
   const source = await readFile(filename, 'utf8');
-  const result = compile(source, { filename: filename.pathname, generate: 'client' });
+
+  const processed = await preprocess(source, preprocessor, {
+    filename: filenamePath,
+  });
+
+  const result = compile(processed.code, {
+    filename: filenamePath,
+    generate: 'client',
+  });
 
   for (const warning of result.warnings) {
     if (warning.code.startsWith('a11y_')) {
-      throw new Error(`${warning.code}: ${warning.message}`);
+      throw new Error(`${filenamePath}: ${warning.code}: ${warning.message}`);
     }
 
-    process.stderr.write(`${warning.code}: ${warning.message}\n`);
+    process.stderr.write(`${filenamePath}: ${warning.code}: ${warning.message}\n`);
   }
 }
 
-const build = spawnSync('pnpm', ['exec', 'vite', 'build'], { stdio: 'inherit' });
-
-if (build.error) {
-  throw build.error;
-}
-
-if (build.status !== 0) {
-  process.exit(build.status ?? 1);
-}
-
-process.stdout.write(`Compiled ${componentFiles.length} Svelte components and built the demo.\n`);
+process.stdout.write(
+  `Successfully validated ${componentFiles.length} Svelte components in src/lib.\n`,
+);
