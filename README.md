@@ -22,7 +22,7 @@ Import the theme stylesheet once in your application CSS:
 @import '@weluvabid/iris/theme.css';
 ```
 
-The stylesheet defines semantic colour and typography tokens plus the small amount of CSS that Tailwind cannot express cleanly: the masked perimeter gradient, its external glow, and the status-dot keyframes. The header surface itself remains opaque and theme-controlled.
+The stylesheet defines semantic colour and typography tokens plus the small amount of CSS that Tailwind cannot express cleanly: the masked perimeter gradient, its external glow, and small animation keyframes. The header surface itself remains theme-controlled. The optional `iris-page-enter` class adds a staggered entrance to its three direct children and respects `prefers-reduced-motion`.
 
 ## Fonts
 

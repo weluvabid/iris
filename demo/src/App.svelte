@@ -22,16 +22,10 @@
       external: true,
       icon: BookOpenText,
     },
-    {
-      label: 'Issues',
-      href: 'https://github.com/weluvabid/iris/issues',
-      external: true,
-      icon: CircleQuestionMark,
-    },
   ];
 </script>
 
-<div class="mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col px-4 sm:px-6">
+<div class="iris-page-enter mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col px-4 sm:px-6">
   <SiteHeader
     brand="iris"
     homeHref="/"

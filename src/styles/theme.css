@@ -163,6 +163,40 @@
   --sidebar-ring: #fc8b24;
 }
 
+@keyframes iris-page-appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.iris-page-enter > :nth-child(1),
+.iris-page-enter > :nth-child(2),
+.iris-page-enter > :nth-child(3) {
+  animation: iris-page-appear 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.iris-page-enter > :nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.iris-page-enter > :nth-child(3) {
+  animation-delay: 180ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iris-page-enter > :nth-child(1),
+  .iris-page-enter > :nth-child(2),
+  .iris-page-enter > :nth-child(3) {
+    animation: none;
+  }
+}
+
 @keyframes iris-status-breathe {
   0%,
   100% {
