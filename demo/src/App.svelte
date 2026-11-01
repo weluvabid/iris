@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { BookOpenText, CircleQuestionMark } from '@lucide/svelte';
+  import { BookOpenText } from '@lucide/svelte';
   import { SiGithub } from '@icons-pack/svelte-simple-icons';
-  import { SiteFooter, SiteHeader, StickyPill } from '../../src/lib/index.js';
-  import type { SiteFooterLink } from '../../src/lib/types.js';
+  import { SiteFooter, SiteHeader, StickyPill } from '$lib';
+  import type { SiteFooterLink } from '$lib';
   import ArticlePreview from './components/ArticlePreview.svelte';
   import { createDemoThemeState, createThemeToggleHandler } from './lib/theme-controller.js';
 
@@ -28,7 +28,7 @@
 <div class="iris-page-enter mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col px-4 sm:px-6">
   <SiteHeader
     brand="iris"
-    homeHref="/"
+    homeHref={import.meta.env.BASE_URL}
     githubUrl="https://github.com/weluvabid/iris"
     darkMode={themeState.theme === 'dark'}
     {onToggleTheme}
@@ -39,5 +39,5 @@
     <ArticlePreview />
   </main>
 
-  <SiteFooter brand="iris" homeHref="/" links={footerLinks} />
+  <SiteFooter brand="iris" homeHref={import.meta.env.BASE_URL} links={footerLinks} />
 </div>
