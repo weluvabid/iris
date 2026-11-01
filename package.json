@@ -1,7 +1,7 @@
 {
   "name": "@weluvabid/iris",
   "version": "0.2.0",
-  "description": "Pulse-style reusable site shell components for independent open-source projects.",
+  "description": "Reusable Svelte site shell components with a Tailwind and shadcn-svelte theme.",
   "license": "MIT",
   "type": "module",
   "engines": {
@@ -10,6 +10,7 @@
   },
   "files": [
     "src/lib",
+    "src/theme.css",
     "README.md",
     "LICENSE"
   ],
@@ -24,7 +25,8 @@
       "svelte": "./src/lib/index.js",
       "default": "./src/lib/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./theme.css": "./src/theme.css"
   },
   "sideEffects": [
     "**/*.svelte"

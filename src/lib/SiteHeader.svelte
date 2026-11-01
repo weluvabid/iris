@@ -37,10 +37,10 @@
 </script>
 
 <header
-  class="border-border/80 bg-background/90 supports-[backdrop-filter]:bg-background/80 sticky top-3 z-40 mt-3 flex items-center justify-between rounded-full border px-4 py-2.5 shadow-lg shadow-black/10 backdrop-blur-xl transition-colors sm:px-5 dark:shadow-black/35"
+  class="border-border/80 bg-background/90 supports-[backdrop-filter]:bg-background/80 sticky top-3 z-40 mt-3 flex min-w-0 items-center justify-between gap-2 rounded-full border px-4 py-2.5 shadow-lg shadow-black/10 backdrop-blur-xl transition-colors sm:gap-3 sm:px-5 dark:shadow-black/35"
 >
   <a
-    class="text-foreground focus-visible:outline-ring rounded-sm font-semibold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-4"
+    class="text-foreground focus-visible:outline-ring min-w-0 shrink truncate rounded-sm font-semibold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-4"
     href={homeHref}
     aria-label={`${brand} home`}
   >
@@ -51,26 +51,45 @@
       {brand}
     </span>
   </a>
-  <nav class="flex items-center gap-1" aria-label="Site navigation">
-    {#each links as link (link.href)}
-      <a
-        class="text-muted-foreground surface-transition hover:bg-muted hover:text-foreground focus-visible:outline-ring inline-flex size-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95"
-        href={link.href}
-        target={link.external ? '_blank' : undefined}
-        rel={link.external ? 'noopener noreferrer' : undefined}
-        aria-label={link.ariaLabel ??
-          (link.external ? `${link.label} (opens in a new tab)` : link.label)}
-        title={link.title ?? link.label}
-      >
+  <Tooltip.Provider delayDuration={300}>
+    <nav
+      class="flex min-w-0 max-w-[72%] shrink-0 items-center gap-0.5 overflow-x-auto overscroll-x-contain sm:gap-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      aria-label="Site navigation"
+    >
+      {#each links as link (link.href)}
         {#if link.icon}
           {@const Icon = link.icon}
-          <Icon size={20} aria-hidden="true" />
+          <Tooltip.Root>
+            <Tooltip.Trigger>
+              {#snippet child({ props })}
+                <a
+                  {...props}
+                  class="text-muted-foreground surface-transition hover:bg-muted hover:text-foreground focus-visible:outline-ring inline-flex size-11 shrink-0 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95"
+                  href={link.href}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                  aria-label={link.ariaLabel ??
+                    (link.external ? `${link.label} (opens in a new tab)` : link.label)}
+                >
+                  <Icon size={20} aria-hidden="true" />
+                </a>
+              {/snippet}
+            </Tooltip.Trigger>
+            <Tooltip.Content>{link.title ?? link.label}</Tooltip.Content>
+          </Tooltip.Root>
         {:else}
-          <span class="px-2 text-xs font-medium">{link.label}</span>
+          <a
+            class="text-muted-foreground surface-transition hover:bg-muted hover:text-foreground focus-visible:outline-ring inline-flex min-h-11 shrink-0 items-center justify-center rounded-full px-2 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95"
+            href={link.href}
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+            aria-label={link.ariaLabel ??
+              (link.external ? `${link.label} (opens in a new tab)` : link.label)}
+          >
+            <span class="text-xs font-medium">{link.label}</span>
+          </a>
         {/if}
-      </a>
-    {/each}
-    <Tooltip.Provider delayDuration={300}>
+      {/each}
       <Tooltip.Root>
         <Tooltip.Trigger
           class="text-muted-foreground surface-transition hover:bg-muted hover:text-foreground focus-visible:outline-ring inline-flex size-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95"
@@ -87,17 +106,24 @@
         >
       </Tooltip.Root>
       {#if githubUrl}
-        <a
-          class="text-muted-foreground surface-transition hover:bg-muted hover:text-foreground focus-visible:outline-ring inline-flex size-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95"
-          href={githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${brand} on GitHub (opens in a new tab)`}
-          title="View source on GitHub"
-        >
-          <SiGithub size={20} aria-hidden="true" />
-        </a>
+        <Tooltip.Root>
+          <Tooltip.Trigger>
+            {#snippet child({ props })}
+              <a
+                {...props}
+                class="text-muted-foreground surface-transition hover:bg-muted hover:text-foreground focus-visible:outline-ring inline-flex size-11 shrink-0 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95"
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${brand} on GitHub (opens in a new tab)`}
+              >
+                <SiGithub size={20} aria-hidden="true" />
+              </a>
+            {/snippet}
+          </Tooltip.Trigger>
+          <Tooltip.Content>View source on GitHub</Tooltip.Content>
+        </Tooltip.Root>
       {/if}
-    </Tooltip.Provider>
-  </nav>
+    </nav>
+  </Tooltip.Provider>
 </header>

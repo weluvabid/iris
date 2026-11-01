@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Component } from 'svelte';
+  import * as Tooltip from './components/ui/tooltip/index.js';
 
   export type SiteFooterLink = {
     label: string;
@@ -34,24 +35,45 @@
       <span>{brand}</span>
     {/if}
   </a>
-  <nav class="flex items-center gap-1" aria-label="Project resources">
-    {#each links as link (link.href)}
-      <a
-        class="text-muted-foreground surface-transition hover:bg-muted hover:text-foreground focus-visible:outline-ring inline-flex size-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95"
-        href={link.href}
-        target={link.external ? '_blank' : undefined}
-        rel={link.external ? 'noopener noreferrer' : undefined}
-        aria-label={link.ariaLabel ??
-          (link.external ? `${link.label} (opens in a new tab)` : link.label)}
-        title={link.title ?? link.label}
-      >
+  <Tooltip.Provider delayDuration={300}>
+    <nav
+      class="flex max-w-full flex-wrap items-center justify-end gap-1"
+      aria-label="Project resources"
+    >
+      {#each links as link (link.href)}
         {#if link.icon}
           {@const Icon = link.icon}
-          <Icon size={19} aria-hidden="true" />
+          <Tooltip.Root>
+            <Tooltip.Trigger>
+              {#snippet child({ props })}
+                <a
+                  {...props}
+                  class="text-muted-foreground surface-transition hover:bg-muted hover:text-foreground focus-visible:outline-ring inline-flex size-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95"
+                  href={link.href}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                  aria-label={link.ariaLabel ??
+                    (link.external ? `${link.label} (opens in a new tab)` : link.label)}
+                >
+                  <Icon size={19} aria-hidden="true" />
+                </a>
+              {/snippet}
+            </Tooltip.Trigger>
+            <Tooltip.Content>{link.title ?? link.label}</Tooltip.Content>
+          </Tooltip.Root>
         {:else}
-          <span class="px-2 text-xs font-medium">{link.label}</span>
+          <a
+            class="text-muted-foreground surface-transition hover:bg-muted hover:text-foreground focus-visible:outline-ring inline-flex min-h-11 items-center justify-center rounded-full px-2 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95"
+            href={link.href}
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+            aria-label={link.ariaLabel ??
+              (link.external ? `${link.label} (opens in a new tab)` : link.label)}
+          >
+            <span class="text-xs font-medium">{link.label}</span>
+          </a>
         {/if}
-      </a>
-    {/each}
-  </nav>
+      {/each}
+    </nav>
+  </Tooltip.Provider>
 </footer>

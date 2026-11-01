@@ -9,12 +9,17 @@ const required = [
   'src/lib/StickyPill.svelte',
   'src/lib/components/ui/badge/badge.svelte',
   'src/lib/components/ui/tooltip/tooltip-content.svelte',
+  'src/theme.css',
 ];
 
 for (const file of required) await access(new URL(`../${file}`, import.meta.url));
 if (manifest.files.includes('iris.css'))
   throw new Error('The removed iris.css must not be published.');
-if (!manifest.exports['.'] || !manifest.exports['./components']) {
+if (
+  !manifest.exports['./theme.css'] ||
+  !manifest.exports['.'] ||
+  !manifest.exports['./components']
+) {
   throw new Error('The component entry points are missing.');
 }
 console.log(`Package manifest and ${required.length} required files verified.`);
