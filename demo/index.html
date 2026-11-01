@@ -4,9 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#fafaf8" />
+    <style>
+      html {
+        background: #fafaf8;
+      }
+      html.dark {
+        background: #090906;
+      }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%BASE_URL%favicon-32.png" />
+    <link rel="icon" href="%BASE_URL%favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.png" />
     <meta name="description" content="Iris reusable Svelte site shell demo." />
     <title>Iris — Site Shell</title>
-    <script type="module" src="/theme-init.js"></script>
+    <script>
+      (() => {
+        let theme = null;
+
+        try {
+          theme = localStorage.getItem('iris-theme');
+        } catch {
+          // Theme detection must not block the initial render.
+        }
+
+        if (theme !== 'light' && theme !== 'dark') {
+          theme =
+            typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+        }
+
+        const root = document.documentElement;
+        root.classList.toggle('dark', theme === 'dark');
+        root.style.colorScheme = theme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute('content', theme === 'dark' ? '#090906' : '#fafaf8');
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>
