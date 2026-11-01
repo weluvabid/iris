@@ -1,6 +1,6 @@
 <script lang="ts">
   import { SiGithub as GithubIcon } from '@icons-pack/svelte-simple-icons';
-  import type { SiteHeaderLink } from '../../types.js';
+  import type { SiteHeaderLink } from '$lib';
   import IconLink from './IconLink.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
   import * as Tooltip from '../ui/tooltip/index.js';

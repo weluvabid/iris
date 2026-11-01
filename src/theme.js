@@ -17,7 +17,9 @@ export function isTheme(value) {
   return value === 'light' || value === 'dark';
 }
 
-/** @param {unknown} storedTheme @param {boolean} prefersDark @returns {IrisTheme} */
+/** @param {unknown} storedTheme @param {boolean} prefersDark @returns {IrisTheme}
+ * @param prefersDark
+ */
 export function resolveInitialTheme(storedTheme, prefersDark) {
   return isTheme(storedTheme) ? storedTheme : prefersDark ? 'dark' : 'light';
 }
@@ -48,7 +50,9 @@ export function getInitialTheme(options = {}) {
   return resolveInitialTheme(storedTheme, prefersDark);
 }
 
-/** @param {IrisTheme} theme @param {ThemeOptions} [options] @returns {IrisTheme} */
+/** @param {IrisTheme} theme @param {ThemeOptions} [options] @returns {IrisTheme}
+ * @param options
+ */
 export function applyTheme(theme, options = {}) {
   if (!isTheme(theme)) {
     throw new TypeError(`Invalid Iris theme: ${String(theme)}`);
@@ -74,7 +78,7 @@ export function applyTheme(theme, options = {}) {
     try {
       const storage = options.storage ?? globalThis.localStorage;
 
-      storage?.setItem(options.storageKey ?? DEFAULT_STORAGE_KEY, theme);
+      storage?.setItem?.(options.storageKey ?? DEFAULT_STORAGE_KEY, theme);
     } catch {
       // Theme application must not depend on storage availability.
     }
@@ -83,7 +87,9 @@ export function applyTheme(theme, options = {}) {
   return theme;
 }
 
-/** @param {IrisTheme} currentTheme @param {ThemeOptions} [options] @returns {IrisTheme} */
+/** @param {IrisTheme} currentTheme @param {ThemeOptions} [options] @returns {IrisTheme}
+ * @param options
+ */
 export function toggleTheme(currentTheme, options = {}) {
   return applyTheme(toggleThemeValue(currentTheme), options);
 }
