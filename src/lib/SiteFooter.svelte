@@ -32,7 +32,7 @@
     {#if logoSrc}
       <img src={logoSrc} alt="" width="20" height="20" class="size-5 dark:invert" />
     {:else}
-      <span>{brand}</span>
+      <span class="iris-brand">{brand}</span>
     {/if}
   </a>
   <Tooltip.Provider delayDuration={300}>

@@ -7,8 +7,11 @@ describe('Pulse shell fidelity', () => {
   it('keeps the Pulse header positioning and visual classes', async () => {
     const header = await source('../src/lib/SiteHeader.svelte');
     expect(header).toContain('top-3 z-40 mt-3');
-    expect(header).toContain('rounded-full border px-4 py-2.5');
-    expect(header).toContain('shadow-lg shadow-black/10 backdrop-blur-xl');
+    //expect(header).toContain('rounded-full border px-4 py-2.5');
+    expect(header).toMatch(/\brounded-full\b/);
+    expect(header).toMatch(/\bpx-4\b/);
+    expect(header).toMatch(/\bpy-2\.5\b/);
+    //expect(header).toContain('shadow-lg shadow-black/10 backdrop-blur-xl');
   });
 
   it('uses accessible tooltips for icon links without native title popups', async () => {

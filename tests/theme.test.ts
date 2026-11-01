@@ -38,4 +38,19 @@ describe('Iris theme contract', () => {
     expect(css).toContain('.status-dot');
     expect(css).toContain('animation: none');
   });
+
+  it('keeps the header opaque and confines the gradient to its perimeter', async () => {
+    const css = await theme();
+    const header = await readFile(new URL('../src/lib/SiteHeader.svelte', import.meta.url), 'utf8');
+
+    expect(css).toContain('.iris-header::before');
+    expect(css).toContain('.iris-header::after');
+    expect(css).toContain('mask-composite: exclude');
+    expect(css).toContain('background-color: var(--background)');
+    expect(css).toContain('--iris-header-glow-opacity: 0.11');
+    expect(css).toContain('--iris-header-glow-opacity: 0.2');
+    expect(header).toContain('class="iris-header sticky');
+    expect(header).not.toContain('bg-background/90');
+    expect(header).toContain('class="iris-brand"');
+  });
 });

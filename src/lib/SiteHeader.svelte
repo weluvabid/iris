@@ -37,7 +37,7 @@
 </script>
 
 <header
-  class="border-border/80 bg-background/90 supports-[backdrop-filter]:bg-background/80 sticky top-3 z-40 mt-3 flex min-w-0 items-center justify-between gap-2 rounded-full border px-4 py-2.5 shadow-lg shadow-black/10 backdrop-blur-xl transition-colors sm:gap-3 sm:px-5 dark:shadow-black/35"
+  class="iris-header sticky top-3 z-40 mt-3 flex min-w-0 items-center justify-between gap-2 rounded-full px-4 py-2.5 shadow-lg shadow-black/10 transition-colors sm:gap-3 sm:px-5 dark:shadow-black/35"
 >
   <a
     class="text-foreground focus-visible:outline-ring min-w-0 shrink truncate rounded-sm font-semibold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-4"
@@ -48,7 +48,7 @@
       {#if logoSrc}
         <img src={logoSrc} alt={logoAlt} width="22" height="22" class="size-[22px] dark:invert" />
       {/if}
-      {brand}
+      <span class="iris-brand">{brand}</span>
     </span>
   </a>
   <Tooltip.Provider delayDuration={300}>
