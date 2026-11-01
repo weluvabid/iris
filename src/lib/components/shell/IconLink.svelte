@@ -7,6 +7,7 @@
     href: string;
     label: string;
     tooltip?: string;
+    title?: string;
     external?: boolean;
     size?: number;
     class?: string;
@@ -17,6 +18,7 @@
     href,
     label,
     tooltip = label,
+    title,
     external = false,
     size = 20,
     class: className = '',
@@ -34,7 +36,7 @@
         rel={external ? 'noopener noreferrer' : undefined}
         aria-label={label}
       >
-        <Icon {size} aria-hidden="true" />
+        <Icon {size} {title} aria-hidden="true" />
       </a>
     {/snippet}
   </Tooltip.Trigger>

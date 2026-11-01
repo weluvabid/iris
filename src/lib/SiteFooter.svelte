@@ -26,6 +26,7 @@
       {#each links as link (link.href)}
         {#if link.icon}
           <IconLink
+            title=""
             icon={link.icon}
             href={link.href}
             label={link.ariaLabel ??

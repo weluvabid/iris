@@ -24,6 +24,7 @@
     {#each links as link (link.href)}
       {#if link.icon}
         <IconLink
+          title=""
           icon={link.icon}
           href={link.href}
           label={link.ariaLabel ??
@@ -47,12 +48,7 @@
     {/each}
     <ThemeToggle {darkMode} onToggle={onToggleTheme} />
     {#if githubUrl}
-      <IconLink
-        icon={GithubIcon}
-        href={githubUrl}
-        label={`${brand} on GitHub (opens in a new tab)`}
-        external
-      />
+      <IconLink title="" icon={GithubIcon} href={githubUrl} label="Source code" external />
     {/if}
   </nav>
 </Tooltip.Provider>
