@@ -16,19 +16,23 @@ describe('Iris shell contract', () => {
     expect(theme).toContain('top: 0.75rem');
   });
 
-  it('uses monochrome borders and native tooltips for shell actions', async () => {
+  it('uses monochrome borders and accessible custom tooltips for shell actions', async () => {
     const theme = await readSource('../src/styles/theme.css');
     const brand = await readSource('../src/lib/components/shell/BrandLink.svelte');
     const iconLink = await readSource('../src/lib/components/shell/IconLink.svelte');
     const themeToggle = await readSource('../src/lib/components/shell/ThemeToggle.svelte');
 
-    expect(theme).toContain('border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent)');
+    expect(theme).toContain(
+      'border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent)',
+    );
     expect(theme).not.toContain('iris-gradient-');
     expect(brand).toContain('text-foreground');
     expect(iconLink).toContain('hover:bg-muted');
-    expect(iconLink).toContain('title={title}');
-    expect(themeToggle).toContain('title={label}');
-    expect(iconLink).not.toContain('Tooltip.Root');
+    expect(iconLink).toContain('Tooltip.Root');
+    expect(iconLink).toContain('Tooltip.Content');
+    expect(iconLink).not.toContain('title={title}');
+    expect(themeToggle).toContain('Tooltip.Root');
+    expect(themeToggle).toContain('Tooltip.Content');
   });
 
   it('removes the decorative sticky pill and its observer', async () => {
@@ -46,16 +50,6 @@ describe('Iris shell contract', () => {
     expect(footer).toContain('flex flex-wrap items-center justify-between gap-4');
     expect(footer).toContain('border-t py-6 text-sm');
     expect(footer).toContain('aria-label="Project resources"');
-  });
-
-  it('isolates sticky-pill observer lifecycle outside the Svelte component', async () => {
-    const pill = await readSource('../src/lib/StickyPill.svelte');
-    const observer = await readSource('../src/lib/sticky-pill.ts');
-
-    expect(pill).toContain('observeStickySentinel');
-    expect(pill).not.toContain('new IntersectionObserver');
-    expect(observer).toContain("rootMargin: '-84px 0px 0px 0px'");
-    expect(observer).toContain('observer.disconnect()');
   });
 
   it('keeps HTML and CSS out of the repository root', async () => {

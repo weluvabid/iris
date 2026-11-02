@@ -3,7 +3,7 @@
   import { SiGithub } from '@icons-pack/svelte-simple-icons';
   import SiteFooter from '$lib/SiteFooter.svelte';
   import SiteHeader from '$lib/SiteHeader.svelte';
-    import type { SiteFooterLink } from '$lib/types.js';
+  import type { SiteFooterLink } from '$lib/types.js';
   import ArticlePreview from './components/ArticlePreview.svelte';
   import { createDemoThemeState, createThemeToggleHandler } from './lib/theme-controller.js';
 

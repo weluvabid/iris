@@ -32,7 +32,9 @@ describe('Iris theme contract', () => {
   it('uses a restrained monochrome header border', async () => {
     const css = await readTheme();
 
-    expect(css).toContain('border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent)');
+    expect(css).toContain(
+      'border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent)',
+    );
     expect(css).toContain('.iris-header:hover');
     expect(css).not.toContain('iris-gradient-');
     expect(css).not.toContain('iris-status-breathe');
