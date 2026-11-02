@@ -63,8 +63,13 @@ describe('Iris shell contract', () => {
     expect(footer).toContain('flex flex-wrap items-center justify-between gap-4');
     expect(footer).toContain('border-t py-6 text-sm');
     expect(footer).toContain('aria-label="Project resources"');
-    // expect(footer).toContain('tooltip={link.label}');
-    // expect(footer).toContain('title={link.title}');
+    expect(footer).toContain('tooltip={link.title ?? link.label}');
+    expect(footer).not.toContain('title={link.title}');
+
+    const iconLink = await readSource('../src/lib/components/shell/IconLink.svelte');
+
+    expect(iconLink).toContain("title: title ?? ''");
+    expect(iconLink).toContain('<Icon {size} aria-hidden="true" title="" />');
 
     const headerNavigation = await readSource(
       '../src/lib/components/shell/HeaderNavigation.svelte',
