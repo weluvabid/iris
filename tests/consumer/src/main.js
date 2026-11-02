@@ -2,6 +2,10 @@ import { mount } from 'svelte';
 import App from './App.svelte';
 import './app.css';
 
-mount(App, {
-  target: document.getElementById('app'),
-});
+const target = document.getElementById('app');
+
+if (!target) {
+  throw new Error('Consumer app mount element #app was not found.');
+}
+
+mount(App, { target });
