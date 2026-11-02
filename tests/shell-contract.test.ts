@@ -30,14 +30,19 @@ describe('Iris shell contract', () => {
     expect(iconLink).toContain('hover:bg-muted');
     expect(iconLink).toContain('Tooltip.Root');
     expect(iconLink).toContain('Tooltip.Content');
-    expect(iconLink).not.toContain('title={title}');
+    expect(iconLink).toContain("title: title ?? ''");
+    expect(iconLink).toContain('<Tooltip.Content>{tooltip}</Tooltip.Content>');
     expect(themeToggle).toContain('Tooltip.Root');
     expect(themeToggle).toContain('Tooltip.Content');
+
     for (const source of [themeToggle, iconLink]) {
-      expect(source).toContain('window.addEventListener(\'blur\', handleWindowBlur)');
-      expect(source).toContain('document.addEventListener(\'visibilitychange\', handleVisibilityChange)');
+      expect(source).toContain("window.addEventListener('blur', handleWindowBlur)");
+      expect(source).toContain(
+        "document.addEventListener('visibilitychange', handleVisibilityChange)",
+      );
       expect(source).toContain('pointerReentryRequired = pointerInside');
-      expect(source).toContain('if (nextOpen && pointerReentryRequired) return;');
+      expect(source).toContain('if (pointerReentryRequired) return;');
+      expect(source).not.toContain('if (nextOpen && pointerReentryRequired) return;');
       expect(source).not.toContain('focusTooltipSuppressed');
       expect(source).not.toContain('onfocus: handleFocus');
     }
@@ -58,6 +63,15 @@ describe('Iris shell contract', () => {
     expect(footer).toContain('flex flex-wrap items-center justify-between gap-4');
     expect(footer).toContain('border-t py-6 text-sm');
     expect(footer).toContain('aria-label="Project resources"');
+    // expect(footer).toContain('tooltip={link.label}');
+    // expect(footer).toContain('title={link.title}');
+
+    const headerNavigation = await readSource(
+      '../src/lib/components/shell/HeaderNavigation.svelte',
+    );
+
+    expect(headerNavigation).toContain('tooltip={link.label}');
+    expect(headerNavigation).toContain('title={link.title}');
   });
 
   it('keeps HTML and CSS out of the repository root', async () => {

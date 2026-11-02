@@ -22,7 +22,8 @@
         href={link.href}
         label={link.ariaLabel ??
           (link.external ? `${link.label} (opens in a new tab)` : link.label)}
-        tooltip={link.title ?? link.label}
+        tooltip={link.label}
+        title={link.title}
         external={link.external}
         size={20}
       />

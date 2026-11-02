@@ -31,7 +31,7 @@
   let pointerInside = $state(false);
 
   function handleOpenChange(nextOpen: boolean) {
-    if (nextOpen && pointerReentryRequired) return;
+    if (pointerReentryRequired) return;
     open = nextOpen;
   }
 
@@ -52,7 +52,6 @@
     pointerInside = false;
     pointerReentryRequired = false;
   }
-
 
   onMount(() => {
     window.addEventListener('blur', handleWindowBlur);
@@ -75,6 +74,7 @@
               class: `text-muted-foreground transition-colors duration-150 motion-reduce:transition-none hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring inline-flex size-11 shrink-0 items-center justify-center rounded-full active:scale-95 ${className}`,
               href,
               'aria-label': label,
+              title: title ?? '',
               target: external ? '_blank' : undefined,
               rel: external ? 'noopener noreferrer' : undefined,
               onpointerenter: handlePointerEnter,
@@ -83,10 +83,10 @@
             props,
           )}
         >
-          <Icon {size} aria-hidden="true" />
+          <Icon {size} aria-hidden="true" title="" />
         </a>
       {/snippet}
     </Tooltip.Trigger>
-    <Tooltip.Content>{title ?? tooltip}</Tooltip.Content>
+    <Tooltip.Content>{tooltip}</Tooltip.Content>
   </Tooltip.Root>
 </Tooltip.Provider>

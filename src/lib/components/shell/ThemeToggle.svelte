@@ -38,7 +38,6 @@
     pointerReentryRequired = false;
   }
 
-
   onMount(() => {
     window.addEventListener('blur', handleWindowBlur);
     document.addEventListener('visibilitychange', handleVisibilityChange);
