@@ -6,25 +6,24 @@ const readSource = (path: string) => readFile(new URL(path, import.meta.url), 'u
 describe('Iris shell contract', () => {
   it('preserves the sticky Pulse header geometry', async () => {
     const header = await readSource('../src/lib/SiteHeader.svelte');
-    const theme = await readSource('../src/styles/theme.css');
 
-    expect(header).toMatch(/class="iris-header[^"]*\bsticky\b[^"]*\btop-3\b/);
+    expect(header).toMatch(/class="[^"]*\bsticky\b[^"]*\btop-3\b/);
     expect(header).toMatch(/\brounded-full\b/);
     expect(header).toMatch(/\bpx-4\b/);
     expect(header).toMatch(/\bpy-2\.5\b/);
-    expect(theme).toContain('position: sticky');
-    expect(theme).toContain('top: 0.75rem');
+    expect(header).toContain('backdrop-blur-[10px]');
+    expect(header).toContain('bg-background/72');
+    expect(header).toContain('border-foreground/22');
   });
 
   it('uses monochrome borders and accessible custom tooltips for shell actions', async () => {
     const theme = await readSource('../src/styles/theme.css');
+    const header = await readSource('../src/lib/SiteHeader.svelte');
     const brand = await readSource('../src/lib/components/shell/BrandLink.svelte');
     const iconLink = await readSource('../src/lib/components/shell/IconLink.svelte');
     const themeToggle = await readSource('../src/lib/components/shell/ThemeToggle.svelte');
 
-    expect(theme).toContain(
-      'border: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent)',
-    );
+    expect(header).toContain('border-foreground/22');
     expect(theme).not.toContain('iris-gradient-');
     expect(brand).toContain('text-foreground');
     expect(iconLink).toContain('hover:bg-muted');

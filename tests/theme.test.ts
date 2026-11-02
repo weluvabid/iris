@@ -40,12 +40,17 @@ describe('Iris theme contract', () => {
     await access(new URL('../src/styles/fonts/LICENSE.txt', import.meta.url));
   });
 
-  it('uses a restrained monochrome header border', async () => {
+  it('keeps presentation styling in Tailwind and retains only design-system CSS', async () => {
     const css = await readTheme();
 
+    expect(css).toContain('--animate-iris-page-appear:');
+    expect(css).toContain('@keyframes iris-page-appear');
+    expect(css).toContain('::selection');
     expect(css).toContain(
-      'border: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent)',
+      '@apply bg-[var(--selection-background)] text-[var(--selection-foreground)]',
     );
+    expect(css).not.toContain('.iris-header');
+    expect(css).not.toContain('.iris-page-enter');
     expect(css).not.toContain('iris-gradient-');
     expect(css).not.toContain('iris-status-breathe');
   });

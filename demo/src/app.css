@@ -9,18 +9,17 @@
 
   html {
     @apply font-sans;
-    background: var(--background);
+    @apply bg-background;
   }
 
   body {
     @apply bg-background text-foreground;
-    min-width: 320px;
-    background: var(--background);
+    @apply min-w-[320px];
   }
 
   code,
   pre {
-    font-family: var(--font-mono);
+    @apply font-mono;
   }
 
   a:not([class*='focus-visible:']),

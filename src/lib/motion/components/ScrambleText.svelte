@@ -63,7 +63,8 @@
 
 <button
   type="button"
-  class={className}
+  class="appearance-none border-0 bg-transparent p-0 [font:inherit] text-start text-inherit [cursor:inherit] {className ??
+    ''}"
   aria-label={text}
   onpointerenter={trigger === 'hover' || trigger === 'both'
     ? (event: PointerEvent) => event.pointerType === 'mouse' && scramble()
@@ -74,16 +75,3 @@
 >
   {display}
 </button>
-
-<style>
-  button {
-    appearance: none;
-    border: 0;
-    padding: 0;
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    text-align: inherit;
-    cursor: inherit;
-  }
-</style>

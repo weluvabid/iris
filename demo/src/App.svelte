@@ -26,7 +26,9 @@
   ];
 </script>
 
-<div class="iris-page-enter mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col px-4 sm:px-6">
+<div
+  class="[&>*:nth-child(-n+3)]:animate-iris-page-appear [&>*:nth-child(2)]:[animation-delay:100ms] [&>*:nth-child(3)]:[animation-delay:180ms] motion-reduce:[&>*:nth-child(-n+3)]:animate-none mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col px-4 sm:px-6"
+>
   <SiteHeader
     brand="iris"
     homeHref={import.meta.env.BASE_URL}
