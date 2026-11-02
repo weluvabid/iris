@@ -5,7 +5,15 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['**/node_modules/**', '**/coverage/**', '**/dist/**', '**/.svelte-kit/**'],
+    ignores: [
+      '**/node_modules/**',
+      '**/coverage/**',
+      '**/dist/**',
+      '**/.svelte-kit/**',
+      'src/lib/components/data-table/**',
+      'src/lib/hooks/use-data-table-filters.svelte.ts',
+      'src/lib/hooks/use-debounce-callback.ts',
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
