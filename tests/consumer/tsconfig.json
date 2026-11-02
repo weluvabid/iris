@@ -10,7 +10,7 @@
     "skipLibCheck": false,
     "verbatimModuleSyntax": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["svelte"]
+    "types": ["svelte", "node"]
   },
   "include": ["src/**/*.js", "src/**/*.svelte"]
 }

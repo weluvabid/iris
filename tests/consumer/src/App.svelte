@@ -1,11 +1,5 @@
 <script lang="ts">
-  import {
-    Button,
-    DebouncedInput,
-    SiteFooter,
-    SiteHeader,
-    Tooltip,
-  } from '@weluvabid/iris';
+  import { Button, DebouncedInput, SiteFooter, SiteHeader, Tooltip } from '@weluvabid/iris';
   import * as Components from '@weluvabid/iris/components';
   import { Button as DirectButton } from '@weluvabid/iris/components/ui/button';
   import { createFilters } from '@weluvabid/iris/data-table';
