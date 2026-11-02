@@ -1,8 +1,18 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { access, readFile } from 'node:fs/promises';
-import { createThemeScript, resolveInitialTheme, toggleThemeValue } from '../src/theme.js';
+import {
+  applyTheme,
+  createThemeScript,
+  getInitialTheme,
+  resolveInitialTheme,
+  toggleThemeValue,
+} from '../src/theme.js';
 
 const readTheme = () => readFile(new URL('../src/styles/theme.css', import.meta.url), 'utf8');
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe('Iris theme contract', () => {
   it('defines light and dark semantic tokens', async () => {
@@ -55,5 +65,75 @@ describe('Iris theme contract', () => {
 
     expect(script).not.toContain('</script>');
     expect(() => createThemeScript('')).toThrow(TypeError);
+  });
+});
+
+describe('Iris theme runtime', () => {
+  it('uses a valid stored preference before the system preference', () => {
+    const storage = { getItem: vi.fn(() => 'light') };
+
+    expect(getInitialTheme({ storage, media: { matches: true } })).toBe('light');
+    expect(storage.getItem).toHaveBeenCalledWith('iris-theme');
+  });
+
+  it('falls back to the system preference when storage is unavailable or invalid', () => {
+    const unavailableStorage = {
+      getItem: () => {
+        throw new Error('Storage is blocked');
+      },
+    };
+
+    expect(getInitialTheme({ storage: unavailableStorage, media: { matches: true } })).toBe('dark');
+    expect(
+      getInitialTheme({ storage: { getItem: () => 'invalid' }, media: { matches: false } }),
+    ).toBe('light');
+  });
+
+  it('applies the theme, updates the browser color and persists the preference', () => {
+    const meta = { setAttribute: vi.fn() };
+    const root = {
+      classList: { toggle: vi.fn() },
+      style: { colorScheme: '' },
+      ownerDocument: { querySelector: vi.fn(() => meta) },
+    } as unknown as HTMLElement;
+    const storage = { setItem: vi.fn() };
+
+    vi.stubGlobal(
+      'getComputedStyle',
+      vi.fn(() => ({ getPropertyValue: () => '#090906' })) as unknown as typeof getComputedStyle,
+    );
+
+    expect(applyTheme('dark', { root, storage })).toBe('dark');
+    expect(root.classList.toggle).toHaveBeenCalledWith('dark', true);
+    expect(root.style.colorScheme).toBe('dark');
+    expect(storage.setItem).toHaveBeenCalledWith('iris-theme', 'dark');
+    expect(meta.setAttribute).toHaveBeenCalledWith('content', '#090906');
+  });
+
+  it('keeps theme application working when persistence fails', () => {
+    const root = {
+      classList: { toggle: vi.fn() },
+      style: { colorScheme: '' },
+      ownerDocument: { querySelector: vi.fn(() => null) },
+    } as unknown as HTMLElement;
+    const storage = {
+      setItem: () => {
+        throw new Error('Storage is blocked');
+      },
+    };
+
+    expect(() => applyTheme('light', { root, storage })).not.toThrow();
+    expect(root.classList.toggle).toHaveBeenCalledWith('dark', false);
+    expect(root.style.colorScheme).toBe('light');
+  });
+
+  it('rejects invalid themes before mutating browser state', () => {
+    const root = {
+      classList: { toggle: vi.fn() },
+      style: { colorScheme: '' },
+    } as unknown as HTMLElement;
+
+    expect(() => applyTheme('system' as never, { root })).toThrow(TypeError);
+    expect(root.classList.toggle).not.toHaveBeenCalled();
   });
 });

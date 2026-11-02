@@ -30,7 +30,6 @@ export default tseslint.config(
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
       '@typescript-eslint/no-non-null-assertion': 'error',
-      '@typescript-eslint/no-floating-promises': 'off',
       curly: ['error', 'all'],
       eqeqeq: ['error', 'always'],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
@@ -61,6 +60,17 @@ export default tseslint.config(
       'prefer-template': 'error',
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
+    },
+  },
+  {
+    files: ['**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-floating-promises': ['error', { ignoreVoid: false }],
     },
   },
   {
