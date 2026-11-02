@@ -16,7 +16,7 @@
   let pointerInside = $state(false);
 
   function handleOpenChange(nextOpen: boolean) {
-    if (nextOpen && pointerReentryRequired) return;
+    if (pointerReentryRequired) return;
     open = nextOpen;
   }
 
@@ -38,12 +38,6 @@
     pointerReentryRequired = false;
   }
 
-  function handleFocus(event: FocusEvent) {
-    const target = event.currentTarget;
-    if (target instanceof HTMLElement && target.matches(':focus-visible')) {
-      pointerReentryRequired = false;
-    }
-  }
 
   onMount(() => {
     window.addEventListener('blur', handleWindowBlur);
@@ -70,7 +64,6 @@
               'aria-label': label,
               onpointerenter: handlePointerEnter,
               onpointerleave: handlePointerLeave,
-              onfocus: handleFocus,
             },
             props,
           )}

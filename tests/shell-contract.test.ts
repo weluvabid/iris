@@ -33,6 +33,14 @@ describe('Iris shell contract', () => {
     expect(iconLink).not.toContain('title={title}');
     expect(themeToggle).toContain('Tooltip.Root');
     expect(themeToggle).toContain('Tooltip.Content');
+    for (const source of [themeToggle, iconLink]) {
+      expect(source).toContain('window.addEventListener(\'blur\', handleWindowBlur)');
+      expect(source).toContain('document.addEventListener(\'visibilitychange\', handleVisibilityChange)');
+      expect(source).toContain('pointerReentryRequired = pointerInside');
+      expect(source).toContain('if (nextOpen && pointerReentryRequired) return;');
+      expect(source).not.toContain('focusTooltipSuppressed');
+      expect(source).not.toContain('onfocus: handleFocus');
+    }
   });
 
   it('removes the decorative sticky pill and its observer', async () => {

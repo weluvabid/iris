@@ -26,8 +26,7 @@
   }: Props = $props();
 
   let open = $state(false);
-  // After a window/tab loses focus, don't reopen from a pointer that was
-  // already resting over the trigger. Require pointerleave + a fresh enter.
+  // Prevent a stationary pointer from reopening a tooltip after window/tab blur.
   let pointerReentryRequired = $state(false);
   let pointerInside = $state(false);
 
@@ -54,13 +53,6 @@
     pointerReentryRequired = false;
   }
 
-  function handleFocus(event: FocusEvent) {
-    // Only keyboard-visible focus may bypass the stale-pointer guard.
-    const target = event.currentTarget;
-    if (target instanceof HTMLElement && target.matches(':focus-visible')) {
-      pointerReentryRequired = false;
-    }
-  }
 
   onMount(() => {
     window.addEventListener('blur', handleWindowBlur);
@@ -87,7 +79,6 @@
               rel: external ? 'noopener noreferrer' : undefined,
               onpointerenter: handlePointerEnter,
               onpointerleave: handlePointerLeave,
-              onfocus: handleFocus,
             },
             props,
           )}
