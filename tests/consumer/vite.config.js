@@ -13,5 +13,19 @@ export default defineConfig({
   ],
   build: {
     target: 'es2022',
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Suppress Rollup warnings about uninterpretable pure annotations from node_modules
+        if (
+          warning.code === 'INVALID_ANNOTATION' ||
+          warning.message.includes('@__PURE__') ||
+          warning.id?.includes('svelte-sonner')
+        ) {
+          return;
+        }
+
+        warn(warning);
+      },
+    },
   },
 });

@@ -8,6 +8,7 @@
     "checkJs": true,
     "noEmit": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
     "verbatimModuleSyntax": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["svelte", "node"]

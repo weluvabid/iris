@@ -19,13 +19,13 @@ Import the theme stylesheet once in your application CSS:
 
 ```css
 @import 'tailwindcss';
-@source '../node_modules/@weluvabid/iris/src';
+@source '../node_modules/@weluvabid/iris/dist';
 @import '@weluvabid/iris/theme.css';
 ```
 
 The `@source` directive is important: Tailwind CSS 4 does not automatically scan dependencies in `node_modules`. It makes Iris's component utility classes available without requiring consumers to copy or reconfigure the components.
 
-The stylesheet defines semantic colour and typography tokens plus the small amount of CSS that Tailwind cannot express cleanly: the masked perimeter gradient, its external glow, and small animation keyframes. The header surface itself remains theme-controlled. The optional `iris-page-enter` class adds a staggered entrance to its three direct children and respects `prefers-reduced-motion`.
+The stylesheet defines semantic colour and typography tokens, loads the bundled fonts, and includes the optional `iris-page-enter` entrance animation. The animation respects `prefers-reduced-motion`.
 
 ## Fonts
 
@@ -41,7 +41,7 @@ Iris exposes shadcn-compatible semantic tokens in light and dark modes. Add or r
 | -------------- | --------- | --------- |
 | `--background` | `#FAFAF8` | `#090906` |
 | `--foreground` | `#20201E` | `#E8E7E3` |
-| `--primary`    | `#D96C16` | `#FC8B24` |
+| `--primary`    | `#242424` | `#E8E7E3` |
 | `--border`     | `#E8E7E1` | `#27271F` |
 
 ## Components
