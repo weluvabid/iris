@@ -95,6 +95,43 @@ Iris exposes shadcn-compatible semantic tokens in light and dark modes. Add or r
 - `homeHref`, `logoSrc`: optional brand destination and logo.
 - `links`: `{ label, href, external?, title?, ariaLabel?, icon? }[]`.
 
+## Motion
+
+Iris includes an optional, lightweight motion entry point. It uses Svelte transitions,
+CSS/Tailwind utilities, and small browser APIs rather than adding an animation runtime.
+Import it only in projects that need these primitives:
+
+```svelte
+<script lang="ts">
+  import { ActionButton, NumberTicker, ScrambleText, ThemeToggler } from '@weluvabid/iris/motion';
+
+  let theme = $state<'light' | 'dark'>('light');
+
+  async function copySomething() {
+    await navigator.clipboard.writeText('Hello from Iris');
+  }
+</script>
+
+<ActionButton idleLabel="Copy" successLabel="Copied" onaction={copySomething} />
+<NumberTicker value={1284} />
+<ScrambleText text="SYSTEM READY" />
+<ThemeToggler {theme} onthemechange={(next) => (theme = next)} />
+```
+
+Available exports:
+
+- `ActionButton` — async action with idle, loading, success and error feedback.
+- `ThemeToggler` — accessible theme control integrated with Iris theme helpers.
+- `NumberTicker` — animated numeric value updates.
+- `ScrambleText` — optional pointer/keyboard-triggered text effect.
+- `spotlight` — fine-pointer-only action that exposes pointer coordinates as CSS variables.
+- `fade`, `reveal`, and `swap` — restrained Svelte transition helpers.
+- `prefersReducedMotion`, `onMotionPreferenceChange`, and `hasFineHoverPointer` — capability utilities.
+
+Motion is opt-in. All primitives have non-animated fallbacks, respect reduced-motion preferences,
+and avoid hover-only essential functionality. `ActionButton` uses a minimum 44px touch target by
+default. `ScrambleText` is decorative; its original text remains available to assistive technology.
+
 ## Icons
 
 Iris exposes the complete icon collections from Lucide and Simple Icons through

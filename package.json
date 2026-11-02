@@ -31,8 +31,8 @@
     },
     "./theme": {
       "types": "./src/theme.d.ts",
-      "import": "./src/theme.js",
-      "default": "./src/theme.js"
+      "import": "./dist/theme.js",
+      "default": "./dist/theme.js"
     },
     "./theme.css": "./src/styles/theme.css",
     "./package.json": "./package.json",
@@ -65,6 +65,12 @@
       "svelte": "./dist/hooks.js",
       "import": "./dist/hooks.js",
       "default": "./dist/hooks.js"
+    },
+    "./motion": {
+      "types": "./dist/motion/index.d.ts",
+      "svelte": "./dist/motion/index.js",
+      "import": "./dist/motion/index.js",
+      "default": "./dist/motion/index.js"
     }
   },
   "sideEffects": [

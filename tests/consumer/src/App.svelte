@@ -6,7 +6,15 @@
   import { useDebounceCallback } from '@weluvabid/iris/hooks';
   import * as Lucide from '@weluvabid/iris/lucide';
   import * as SimpleIcons from '@weluvabid/iris/simple-icons';
-  import { getInitialTheme } from '@weluvabid/iris/theme';
+  import { getInitialTheme } from '@weluvabid/iris';
+  import {
+    ActionButton,
+    NavIndicator,
+    NumberTicker,
+    ScrambleText,
+    ThemeToggler,
+    spotlight,
+  } from '@weluvabid/iris/motion';
 
   const publicApi = [
     DebouncedInput,
@@ -20,9 +28,20 @@
     Lucide,
     SimpleIcons,
     getInitialTheme,
+    ActionButton,
+    NavIndicator,
+    NumberTicker,
+    ScrambleText,
+    ThemeToggler,
+    spotlight,
   ];
 </script>
 
 <main data-api-count={publicApi.length}>
   <Button.Root>Root entry point</Button.Root>
+  <ActionButton idleLabel="Run" onaction={() => Promise.resolve()} />
+  <NavIndicator items={[{ label: 'Home', href: '/' }]} activeHref="/" />
+  <NumberTicker value={42} />
+  <ScrambleText text="IRIS MOTION" />
+  <ThemeToggler theme="light" />
 </main>
