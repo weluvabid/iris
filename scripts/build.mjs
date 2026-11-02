@@ -1,4 +1,5 @@
 import { readdir, readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { compile, preprocess } from 'svelte/compiler';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
@@ -34,7 +35,7 @@ if (componentFiles.length === 0) {
 }
 
 for (const filename of componentFiles) {
-  const filenamePath = filename.pathname;
+  const filenamePath = fileURLToPath(filename);
   const source = await readFile(filename, 'utf8');
 
   const processed = await preprocess(source, preprocessor, {

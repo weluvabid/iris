@@ -1,6 +1,6 @@
 # Iris
 
-A reusable Svelte 5 site shell for independent open-source projects. Iris provides a responsive header, footer, sticky status pill, semantic theme tokens, and small theme helpers.
+A preconfigured Svelte 5 UI foundation for independent projects. Iris bundles the shadcn-svelte component collection, Lucide and Simple Icons, SV Table filters, a reusable site shell, semantic theme tokens, and theme helpers.
 
 ## Requirements
 
@@ -19,8 +19,11 @@ Import the theme stylesheet once in your application CSS:
 
 ```css
 @import 'tailwindcss';
+@source '../node_modules/@weluvabid/iris/src';
 @import '@weluvabid/iris/theme.css';
 ```
+
+The `@source` directive is important: Tailwind CSS 4 does not automatically scan dependencies in `node_modules`. It makes Iris's component utility classes available without requiring consumers to copy or reconfigure the components.
 
 The stylesheet defines semantic colour and typography tokens plus the small amount of CSS that Tailwind cannot express cleanly: the masked perimeter gradient, its external glow, and small animation keyframes. The header surface itself remains theme-controlled. The optional `iris-page-enter` class adds a staggered entrance to its three direct children and respects `prefers-reduced-motion`.
 
@@ -133,6 +136,19 @@ consumer bundlers to tree-shake unused named exports.
 
 Iris depends on these icon packages and exposes them as part of its public API;
 consuming applications do not need to install them separately.
+
+## Data-table filters
+
+Iris includes the SV Table filter components and their Svelte 5 controller. Import them from a dedicated entry point:
+
+```svelte
+<script lang="ts">
+  import { DataTableFilter, createFilters } from '@weluvabid/iris/data-table';
+  import type { ColumnConfig, FilterStrategy } from '@weluvabid/iris/data-table';
+</script>
+```
+
+The entry point also exports the individual filter pieces (`ActiveFilters`, `FilterActions`, `FilterOperator`, `FilterSelector`, `FilterSubject`, and `FilterValue`) and the column/filter helpers. The supporting hook utilities are available from `@weluvabid/iris/hooks`.
 
 ## Theme helpers
 

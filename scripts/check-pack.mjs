@@ -1,4 +1,4 @@
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 
 const packageRoot = new URL('../', import.meta.url);
@@ -10,6 +10,14 @@ const requiredFiles = [
   'src/lib/icons/lucide.d.ts',
   'src/lib/icons/simple-icons.js',
   'src/lib/icons/simple-icons.d.ts',
+  'src/lib/data-table.js',
+  'src/lib/data-table.d.ts',
+  'src/lib/components/data-table/components/data-table-filter.svelte',
+  'src/lib/components/data-table/components/index.js',
+  'src/lib/hooks/use-data-table-filters.svelte.ts',
+  'src/lib/hooks.js',
+  'src/lib/hooks.d.ts',
+  'src/lib/components/ui/debounced-input/index.js',
   'src/lib/SiteHeader.svelte',
   'src/lib/SiteFooter.svelte',
   'src/lib/StickyPill.svelte',
@@ -32,11 +40,22 @@ for (const file of requiredFiles) {
   await access(new URL(file, packageRoot));
 }
 
+const uiDirectory = new URL('../src/lib/components/ui/', import.meta.url);
+const uiEntries = await readdir(uiDirectory, { withFileTypes: true });
+const uiComponents = uiEntries.filter((entry) => entry.isDirectory());
+
+for (const component of uiComponents) {
+  await access(new URL(`../src/lib/components/ui/${component.name}/index.js`, import.meta.url));
+}
+
 for (const exportPath of [
   '.',
   './components',
   './lucide',
   './simple-icons',
+  './data-table',
+  './hooks',
+  './components/ui/*',
   './theme',
   './theme.css',
   './package.json',

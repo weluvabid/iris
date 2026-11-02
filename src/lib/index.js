@@ -64,3 +64,4 @@ export * as Toggle from './components/ui/toggle/index.js';
 export * as ToggleGroup from './components/ui/toggle-group/index.js';
 export * as Tooltip from './components/ui/tooltip/index.js';
 export * as Trace from './components/ui/trace/index.js';
+export { default as DebouncedInput } from './components/ui/debounced-input/index.js';
