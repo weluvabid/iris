@@ -22,23 +22,34 @@
   // The source text is a prop and may change while this component is mounted.
   $effect(() => {
     const currentText = text;
-    if (timer) clearInterval(timer);
+
+    if (timer) {
+      clearInterval(timer);
+    }
+
     timer = undefined;
     display = currentText;
   });
 
   function stop() {
-    if (timer) clearInterval(timer);
+    if (timer) {
+      clearInterval(timer);
+    }
+
     timer = undefined;
     display = text;
   }
 
   function scramble() {
     stop();
-    if (prefersReducedMotion() || typeof window === 'undefined') return;
+
+    if (prefersReducedMotion() || typeof window === 'undefined') {
+      return;
+    }
 
     const source = text;
     const totalDuration = Math.max(120, duration);
+
     startedAt = performance.now();
 
     timer = setInterval(() => {
@@ -47,17 +58,24 @@
 
       display = [...source]
         .map((character, index) => {
-          if (index < resolved || character === ' ') return character;
+          if (index < resolved || character === ' ') {
+            return character;
+          }
+
           return alphabet[Math.floor(Math.random() * alphabet.length)];
         })
         .join('');
 
-      if (progress >= 1) stop();
+      if (progress >= 1) {
+        stop();
+      }
     }, 32);
   }
 
   onDestroy(() => {
-    if (timer) clearInterval(timer);
+    if (timer) {
+      clearInterval(timer);
+    }
   });
 </script>
 

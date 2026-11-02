@@ -42,31 +42,49 @@
   });
 
   async function run() {
-    if (state === 'loading' || disabled) return;
+    if (state === 'loading' || disabled) {
+      return;
+    }
 
     const currentGeneration = ++generation;
-    if (timer) clearTimeout(timer);
+
+    if (timer) {
+      clearTimeout(timer);
+    }
+
     state = 'loading';
 
     try {
       await onaction();
-      if (currentGeneration !== generation) return;
+
+      if (currentGeneration !== generation) {
+        return;
+      }
+
       state = 'success';
     } catch {
-      if (currentGeneration !== generation) return;
+      if (currentGeneration !== generation) {
+        return;
+      }
+
       state = 'error';
     }
 
     if (resetAfter > 0) {
       timer = setTimeout(() => {
-        if (currentGeneration === generation) state = 'idle';
+        if (currentGeneration === generation) {
+          state = 'idle';
+        }
       }, resetAfter);
     }
   }
 
   onDestroy(() => {
     generation += 1;
-    if (timer) clearTimeout(timer);
+
+    if (timer) {
+      clearTimeout(timer);
+    }
   });
 </script>
 

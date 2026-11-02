@@ -31,7 +31,10 @@
   let pointerInside = $state(false);
 
   function handleOpenChange(nextOpen: boolean) {
-    if (pointerReentryRequired) return;
+    if (pointerReentryRequired) {
+      return;
+    }
+
     open = nextOpen;
   }
 
@@ -41,7 +44,9 @@
   }
 
   function handleVisibilityChange() {
-    if (document.visibilityState !== 'visible') handleWindowBlur();
+    if (document.visibilityState !== 'visible') {
+      handleWindowBlur();
+    }
   }
 
   function handlePointerEnter() {

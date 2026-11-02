@@ -14,6 +14,7 @@ export function prefersReducedMotion(): boolean {
 export function onMotionPreferenceChange(callback: (reduce: boolean) => void): () => void {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     callback(true);
+
     return () => {};
   }
 

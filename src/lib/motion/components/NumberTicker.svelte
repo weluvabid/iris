@@ -30,19 +30,25 @@
 
   $effect(() => {
     const target = value;
+
     if (!Number.isFinite(target)) {
       displayed = target;
       previous = target;
+
       return;
     }
 
     if (typeof window === 'undefined' || prefersReducedMotion() || duration <= 0) {
       displayed = target;
       previous = target;
+
       return;
     }
 
-    if (frame) cancelAnimationFrame(frame);
+    if (frame) {
+      cancelAnimationFrame(frame);
+    }
+
     const startValue = Number.isFinite(previous) ? previous : target;
     const startTime = performance.now();
     const span = Math.max(0, duration);
@@ -50,6 +56,7 @@
     const tick = (now: number) => {
       const progress = Math.min(1, (now - startTime) / span);
       const eased = 1 - Math.pow(1 - progress, 3);
+
       displayed = startValue + (target - startValue) * eased;
 
       if (progress < 1) {
@@ -62,14 +69,20 @@
     };
 
     frame = requestAnimationFrame(tick);
+
     return () => {
-      if (frame) cancelAnimationFrame(frame);
+      if (frame) {
+        cancelAnimationFrame(frame);
+      }
+
       frame = 0;
     };
   });
 
   onDestroy(() => {
-    if (frame) cancelAnimationFrame(frame);
+    if (frame) {
+      cancelAnimationFrame(frame);
+    }
   });
 </script>
 

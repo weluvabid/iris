@@ -40,7 +40,7 @@ describe('Iris shell contract', () => {
         "document.addEventListener('visibilitychange', handleVisibilityChange)",
       );
       expect(source).toContain('pointerReentryRequired = pointerInside');
-      expect(source).toContain('if (pointerReentryRequired) return;');
+      expect(source).toMatch(/if\s*\(\s*pointerReentryRequired\s*\)\s*\{\s*return\s*;\s*\}/);
       expect(source).not.toContain('if (nextOpen && pointerReentryRequired) return;');
       expect(source).not.toContain('focusTooltipSuppressed');
       expect(source).not.toContain('onfocus: handleFocus');

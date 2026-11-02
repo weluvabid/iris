@@ -15,15 +15,11 @@
     class?: string;
   } = $props();
 
-  let currentTheme = $state(theme);
-
-  // Keep local interaction state in sync when the parent changes the prop.
-  $effect(() => {
-    currentTheme = theme;
-  });
+  let currentTheme = $derived(theme);
 
   function toggle() {
     const next = toggleThemeValue(currentTheme);
+
     currentTheme = next;
     applyTheme(next);
     onthemechange?.(next);

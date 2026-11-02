@@ -28,16 +28,22 @@
 
   async function measure(index = activeIndex) {
     await tick();
-    if (!navElement) return;
+
+    if (!navElement) {
+      return;
+    }
 
     const activeLink = index >= 0 ? links[index] : undefined;
+
     if (!activeLink) {
       indicator = { ...indicator, visible: false };
+
       return;
     }
 
     const navBounds = navElement.getBoundingClientRect();
     const linkBounds = activeLink.getBoundingClientRect();
+
     indicator = {
       x: linkBounds.left - navBounds.left + navElement.scrollLeft,
       width: linkBounds.width,
@@ -47,6 +53,7 @@
 
   $effect(() => {
     const index = activeIndex;
+
     void measure(index).catch((error: unknown) =>
       console.warn('Iris navigation measurement failed.', error),
     );
@@ -59,8 +66,12 @@
           console.warn('Iris navigation measurement failed.', error),
         );
       });
+
       observer.observe(navElement);
-      for (const link of links) observer.observe(link);
+
+      for (const link of links) {
+        observer.observe(link);
+      }
     }
 
     return () => observer?.disconnect();
