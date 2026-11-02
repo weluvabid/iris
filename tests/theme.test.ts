@@ -10,6 +10,40 @@ import {
 
 const readTheme = () => readFile(new URL('../src/styles/theme.css', import.meta.url), 'utf8');
 
+const readToken = (block: string, token: string) => {
+  const match = block.match(new RegExp(`${token}:\\s*(#[0-9a-fA-F]{6})`));
+
+  if (!match) {
+    throw new Error(`Missing hex theme token: ${token}`);
+  }
+
+  return match[1];
+};
+
+const relativeLuminance = (hex: string) => {
+  const channels = hex.match(/[0-9a-fA-F]{2}/g);
+
+  if (!channels || channels.length !== 3) {
+    throw new Error(`Invalid hex colour: ${hex}`);
+  }
+
+  const [r, g, b] = channels.map((channel) => {
+    const value = Number.parseInt(channel, 16) / 255;
+
+    return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+  });
+
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+
+const contrastRatio = (foreground: string, background: string) => {
+  const values = [relativeLuminance(foreground), relativeLuminance(background)].sort(
+    (a, b) => b - a,
+  );
+
+  return (values[0] + 0.05) / (values[1] + 0.05);
+};
+
 afterEach(() => {
   vi.unstubAllGlobals();
 });
@@ -25,6 +59,25 @@ describe('Iris theme contract', () => {
     expect(css).toContain('@theme inline');
     //expect(css).toContain("@source '../lib'");
     expect(css).toContain("'Atkinson Hyperlegible'");
+  });
+
+  it('keeps muted foreground text at WCAG AA contrast on semantic surfaces', async () => {
+    const css = await readTheme();
+    const light = css.match(/:root\s*\{([^}]*)\}/)?.[1];
+    const dark = css.match(/\.dark\s*\{([^}]*)\}/)?.[1];
+
+    if (!light || !dark) {
+      throw new Error('Missing light or dark theme token block');
+    }
+
+    for (const block of [light, dark]) {
+      const foreground = readToken(block, '--muted-foreground');
+      const backgrounds = [readToken(block, '--background'), readToken(block, '--muted')];
+
+      for (const background of backgrounds) {
+        expect(contrastRatio(foreground, background)).toBeGreaterThanOrEqual(4.5);
+      }
+    }
   });
 
   it('does not make external font requests from the package or demo', async () => {
