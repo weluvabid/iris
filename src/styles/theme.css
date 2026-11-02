@@ -16,7 +16,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@source '../lib';
+@source '../../dist';
 
 @theme inline {
   --font-sans: 'Atkinson Hyperlegible', 'Arial', 'Helvetica Neue', sans-serif;

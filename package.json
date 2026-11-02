@@ -81,11 +81,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
-    "check:pack": "node ./scripts/check-pack.mjs",
-    "check": "pnpm lint && pnpm format:check && pnpm check:svelte && pnpm test && pnpm build && pnpm build:demo && pnpm check:pack",
+    "check": "pnpm lint && pnpm format:check && pnpm check:svelte && pnpm test && pnpm build && pnpm build:demo && pnpm check:consumer",
     "prepare": "node ./scripts/install-hooks.mjs",
     "check:svelte": "svelte-check --tsconfig ./tsconfig.json",
-    "build": "svelte-package --input src/lib --output dist --tsconfig ./tsconfig.json"
+    "build": "svelte-package --input src/lib --output dist --tsconfig ./tsconfig.json",
+    "check:consumer": "node ./scripts/check-consumer.mjs"
   },
   "devDependencies": {
     "@eslint/js": "9.39.0",

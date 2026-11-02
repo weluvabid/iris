@@ -183,7 +183,7 @@ Validation and demo building are intentionally separate:
 
 ```sh
 pnpm check:svelte # Run Svelte and TypeScript diagnostics.
-pnpm build:demo   # Build the demo application into dist/.
+pnpm build:demo   # Build the demo application into dist-demo/.
 ```
 
 Svelte diagnostics are handled by the official `svelte-check` CLI. Library packaging is handled by `svelte-package`, which resolves SvelteKit `$lib` aliases into package-relative imports. The demo remains an independent Vite application and does not participate in library packaging.
@@ -194,7 +194,7 @@ Run all quality gates with:
 pnpm check
 ```
 
-The check runs ESLint, Prettier, Svelte/TypeScript diagnostics, unit tests, the library package build, the demo production build, and npm package-content validation. Git hooks enforce the fast quality gates and Conventional Commit subjects.
+The check runs ESLint, Prettier, Svelte/TypeScript diagnostics, unit tests, the library package build, the demo production build, and an isolated consumer install, type check, and production build. Git hooks enforce the fast quality gates and Conventional Commit subjects.
 
 ## Package contents
 
