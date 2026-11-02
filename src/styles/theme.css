@@ -197,14 +197,10 @@
   top: 0.75rem;
   isolation: isolate;
   z-index: 50;
-
   border: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent);
-
   background: color-mix(in srgb, var(--background) 72%, transparent);
-
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-
   transition: none;
 }
 

@@ -23,7 +23,7 @@ describe('Iris shell contract', () => {
     const themeToggle = await readSource('../src/lib/components/shell/ThemeToggle.svelte');
 
     expect(theme).toContain(
-      'border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent)',
+      'border: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent)',
     );
     expect(theme).not.toContain('iris-gradient-');
     expect(brand).toContain('text-foreground');

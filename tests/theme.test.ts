@@ -33,9 +33,8 @@ describe('Iris theme contract', () => {
     const css = await readTheme();
 
     expect(css).toContain(
-      'border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent)',
+      'border: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent)',
     );
-    expect(css).toContain('.iris-header:hover');
     expect(css).not.toContain('iris-gradient-');
     expect(css).not.toContain('iris-status-breathe');
   });

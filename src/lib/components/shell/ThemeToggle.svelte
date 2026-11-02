@@ -63,7 +63,7 @@
         <button
           {...mergeProps(
             {
-              type: 'button',
+              type: 'button' as const,
               class:
                 'text-muted-foreground transition-colors duration-150 motion-reduce:transition-none hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring inline-flex size-11 shrink-0 items-center justify-center rounded-full active:scale-95',
               onclick: onToggle,

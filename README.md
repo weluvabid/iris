@@ -179,12 +179,14 @@ pnpm dev
 
 The demo uses its own `vite.demo.config.ts`; its Vite root is `demo/`. The library validation and package lifecycle do not depend on the demo's HTML entry point.
 
-Build responsibilities are intentionally separate:
+Validation and demo building are intentionally separate:
 
 ```sh
-pnpm build       # Validate the distributable Svelte source in src/lib.
-pnpm build:demo  # Build the demo application into dist/.
+pnpm check:svelte # Run Svelte and TypeScript diagnostics.
+pnpm build:demo   # Build the demo application into dist/.
 ```
+
+Svelte diagnostics are handled by the official `svelte-check` CLI. The demo remains an independent Vite application and does not participate in library validation.
 
 Run all quality gates with:
 
@@ -192,7 +194,7 @@ Run all quality gates with:
 pnpm check
 ```
 
-The check runs ESLint, Prettier, Svelte/TypeScript diagnostics, unit tests, library validation, the demo production build, and package-content validation. Git hooks enforce the fast quality gates and Conventional Commit subjects.
+The check runs ESLint, Prettier, Svelte/TypeScript diagnostics, unit tests, the demo production build, and npm package-content validation. Git hooks enforce the fast quality gates and Conventional Commit subjects.
 
 ## Package contents
 
