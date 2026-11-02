@@ -1,3 +1,5 @@
+@import 'tw-animate-css';
+
 @font-face {
   font-family: 'Atkinson Hyperlegible';
   font-style: normal;
@@ -99,11 +101,11 @@
     ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'DejaVu Sans Mono',
     monospace;
   --radius: 0.625rem;
-  --chart-1: oklch(0.68 0.16 55);
-  --chart-2: oklch(0.62 0.11 175);
-  --chart-3: oklch(0.48 0.08 235);
-  --chart-4: oklch(0.78 0.14 85);
-  --chart-5: oklch(0.72 0.16 70);
+  --chart-1: #737373;
+  --chart-2: #a3a3a3;
+  --chart-3: #525252;
+  --chart-4: #d4d4d4;
+  --chart-5: #8a8a8a;
   --sidebar: #f1f0ec;
   --sidebar-foreground: #20201e;
   --sidebar-primary: #242424;
@@ -111,7 +113,7 @@
   --sidebar-accent: #eae9e3;
   --sidebar-accent-foreground: #20201e;
   --sidebar-border: #e8e7e1;
-  --sidebar-ring: #d96c16;
+  --sidebar-ring: #737373;
   --shadow-2xs: 0 1px 3px 0 oklch(0 0 0 / 0.04);
   --shadow-xs: 0 1px 3px 0 oklch(0 0 0 / 0.05);
   --shadow-sm: 0 1px 3px 0 oklch(0 0 0 / 0.08), 0 1px 2px -1px oklch(0 0 0 / 0.08);
@@ -150,7 +152,7 @@
   --sidebar-accent: #191914;
   --sidebar-accent-foreground: #e8e7e3;
   --sidebar-border: #27271f;
-  --sidebar-ring: #fc8b24;
+  --sidebar-ring: #a3a3a3;
 }
 
 ::selection {

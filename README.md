@@ -19,11 +19,10 @@ Import the theme stylesheet once in your application CSS:
 
 ```css
 @import 'tailwindcss';
-@source '../node_modules/@weluvabid/iris/dist';
 @import '@weluvabid/iris/theme.css';
 ```
 
-The `@source` directive is important: Tailwind CSS 4 does not automatically scan dependencies in `node_modules`. It makes Iris's component utility classes available without requiring consumers to copy or reconfigure the components.
+Iris's theme stylesheet registers the packaged component sources with Tailwind, so consumers do not need a separate `@source` directive.
 
 The stylesheet defines semantic colour and typography tokens, loads the bundled fonts, and includes the optional `iris-page-enter` entrance animation. The animation respects `prefers-reduced-motion`.
 

@@ -31,7 +31,8 @@ describe('Iris theme contract', () => {
     const css = await readTheme();
     const demoCss = await readFile(new URL('../demo/src/app.css', import.meta.url), 'utf8');
 
-    expect(css).not.toContain('@import');
+    expect(css).not.toContain('fonts.googleapis.com');
+    expect(css).not.toContain('fonts.gstatic.com');
     expect(demoCss).not.toContain('fonts.googleapis.com');
     expect(css).toContain("url('./fonts/atkinson-hyperlegible-regular.otf')");
     await access(new URL('../src/styles/fonts/atkinson-hyperlegible-regular.otf', import.meta.url));
