@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, type Component } from 'svelte';
+  import { mergeProps } from 'bits-ui';
   import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 
   type Props = {
@@ -67,17 +68,24 @@
 <Tooltip.Provider delayDuration={300}>
   <Tooltip.Root bind:open onOpenChange={handleOpenChange}>
     <Tooltip.Trigger>
-      <a
-        class={`text-muted-foreground transition-colors duration-150 motion-reduce:transition-none hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring inline-flex size-11 shrink-0 items-center justify-center rounded-full active:scale-95 ${className}`}
-        {href}
-        aria-label={label}
-        target={external ? '_blank' : undefined}
-        rel={external ? 'noopener noreferrer' : undefined}
-        onpointerleave={handlePointerLeave}
-        onfocus={handleFocus}
-      >
-        <Icon {size} aria-hidden="true" />
-      </a>
+      {#snippet child({ props })}
+        <a
+          {...mergeProps(
+            {
+              class: `text-muted-foreground transition-colors duration-150 motion-reduce:transition-none hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring inline-flex size-11 shrink-0 items-center justify-center rounded-full active:scale-95 ${className}`,
+              href,
+              'aria-label': label,
+              target: external ? '_blank' : undefined,
+              rel: external ? 'noopener noreferrer' : undefined,
+              onpointerleave: handlePointerLeave,
+              onfocus: handleFocus,
+            },
+            props,
+          )}
+        >
+          <Icon {size} aria-hidden="true" />
+        </a>
+      {/snippet}
     </Tooltip.Trigger>
     <Tooltip.Content>{title ?? tooltip}</Tooltip.Content>
   </Tooltip.Root>

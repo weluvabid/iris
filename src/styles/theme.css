@@ -196,18 +196,16 @@
   position: sticky;
   top: 0.75rem;
   isolation: isolate;
-  border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent);
+  z-index: 50;
+
+  border: 1px solid color-mix(in srgb, var(--foreground) 22%, transparent);
+
+  background: color-mix(in srgb, var(--background) 72%, transparent);
+
   backdrop-filter: blur(10px);
-  background: color-mix(in srgb, var(--background) 94%, transparent);
-  transition: border-color 160ms ease;
-}
+  -webkit-backdrop-filter: blur(10px);
 
-.iris-header:hover {
-  border-color: color-mix(in srgb, var(--foreground) 26%, transparent);
-}
-
-.iris-header:focus-within {
-  border-color: color-mix(in srgb, var(--foreground) 42%, transparent);
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

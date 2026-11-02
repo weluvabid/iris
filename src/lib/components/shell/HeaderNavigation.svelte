@@ -15,7 +15,7 @@
 </script>
 
 <nav
-  class="flex min-w-0 max-w-[72%] shrink-0 items-center gap-0.5 overflow-x-auto overscroll-x-contain sm:gap-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+  class="flex min-w-0 max-w-[72%] shrink-0 items-center gap-0.5 sm:gap-1"
   aria-label="Site navigation"
 >
   {#each links as link (link.href)}
