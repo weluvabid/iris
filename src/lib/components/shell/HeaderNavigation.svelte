@@ -14,10 +14,7 @@
   let { links, githubUrl, darkMode, onToggleTheme }: Props = $props();
 </script>
 
-<nav
-  class="flex min-w-0 max-w-[72%] shrink-0 items-center gap-0.5 sm:gap-1"
-  aria-label="Site navigation"
->
+<nav class="flex shrink-0 items-center gap-3" aria-label="Site navigation">
   {#each links as link (link.href)}
     {#if link.icon}
       <IconLink

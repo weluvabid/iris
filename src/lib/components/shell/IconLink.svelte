@@ -29,6 +29,7 @@
   // After a window/tab loses focus, don't reopen from a pointer that was
   // already resting over the trigger. Require pointerleave + a fresh enter.
   let pointerReentryRequired = $state(false);
+  let pointerInside = $state(false);
 
   function handleOpenChange(nextOpen: boolean) {
     if (nextOpen && pointerReentryRequired) return;
@@ -36,7 +37,7 @@
   }
 
   function handleWindowBlur() {
-    pointerReentryRequired = true;
+    pointerReentryRequired = pointerInside;
     open = false;
   }
 
@@ -44,14 +45,21 @@
     if (document.visibilityState !== 'visible') handleWindowBlur();
   }
 
+  function handlePointerEnter() {
+    pointerInside = true;
+  }
+
   function handlePointerLeave() {
+    pointerInside = false;
     pointerReentryRequired = false;
   }
 
-  function handleFocus() {
-    // Keyboard navigation must continue to expose the tooltip even if the
-    // pointer is still blocked after returning to the tab.
-    pointerReentryRequired = false;
+  function handleFocus(event: FocusEvent) {
+    // Only keyboard-visible focus may bypass the stale-pointer guard.
+    const target = event.currentTarget;
+    if (target instanceof HTMLElement && target.matches(':focus-visible')) {
+      pointerReentryRequired = false;
+    }
   }
 
   onMount(() => {
@@ -77,6 +85,7 @@
               'aria-label': label,
               target: external ? '_blank' : undefined,
               rel: external ? 'noopener noreferrer' : undefined,
+              onpointerenter: handlePointerEnter,
               onpointerleave: handlePointerLeave,
               onfocus: handleFocus,
             },

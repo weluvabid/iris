@@ -13,6 +13,7 @@
   let label = $derived(darkMode ? 'Switch to light mode' : 'Switch to dark mode');
   let open = $state(false);
   let pointerReentryRequired = $state(false);
+  let pointerInside = $state(false);
 
   function handleOpenChange(nextOpen: boolean) {
     if (nextOpen && pointerReentryRequired) return;
@@ -20,7 +21,7 @@
   }
 
   function handleWindowBlur() {
-    pointerReentryRequired = true;
+    pointerReentryRequired = pointerInside;
     open = false;
   }
 
@@ -28,12 +29,20 @@
     if (document.visibilityState !== 'visible') handleWindowBlur();
   }
 
+  function handlePointerEnter() {
+    pointerInside = true;
+  }
+
   function handlePointerLeave() {
+    pointerInside = false;
     pointerReentryRequired = false;
   }
 
-  function handleFocus() {
-    pointerReentryRequired = false;
+  function handleFocus(event: FocusEvent) {
+    const target = event.currentTarget;
+    if (target instanceof HTMLElement && target.matches(':focus-visible')) {
+      pointerReentryRequired = false;
+    }
   }
 
   onMount(() => {
@@ -59,6 +68,7 @@
                 'text-muted-foreground transition-colors duration-150 motion-reduce:transition-none hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring inline-flex size-11 shrink-0 items-center justify-center rounded-full active:scale-95',
               onclick: onToggle,
               'aria-label': label,
+              onpointerenter: handlePointerEnter,
               onpointerleave: handlePointerLeave,
               onfocus: handleFocus,
             },
