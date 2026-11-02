@@ -16,28 +16,28 @@ describe('Iris shell contract', () => {
     expect(theme).toContain('top: 0.75rem');
   });
 
-  it('keeps the gradient on the perimeter, not the header surface or wordmark', async () => {
+  it('uses monochrome borders and native tooltips for shell actions', async () => {
     const theme = await readSource('../src/styles/theme.css');
     const brand = await readSource('../src/lib/components/shell/BrandLink.svelte');
+    const iconLink = await readSource('../src/lib/components/shell/IconLink.svelte');
+    const themeToggle = await readSource('../src/lib/components/shell/ThemeToggle.svelte');
 
-    expect(theme).toContain('.iris-header::before');
-    expect(theme).toContain('.iris-header::after');
-    expect(theme).toContain('mask-composite: exclude');
-    expect(theme).toContain('background: hsl(var(--background) / 0.94)');
+    expect(theme).toContain('border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent)');
+    expect(theme).not.toContain('iris-gradient-');
     expect(brand).toContain('text-foreground');
-    expect(brand).not.toContain('iris-brand');
+    expect(iconLink).toContain('hover:bg-muted');
+    expect(iconLink).toContain('title={title}');
+    expect(themeToggle).toContain('title={label}');
+    expect(iconLink).not.toContain('Tooltip.Root');
   });
 
-  it('uses accessible tooltips and neutral hover surfaces for icon actions', async () => {
-    const header = await readSource('../src/lib/components/shell/HeaderNavigation.svelte');
-    const iconLink = await readSource('../src/lib/components/shell/IconLink.svelte');
-    const footer = await readSource('../src/lib/SiteFooter.svelte');
+  it('removes the decorative sticky pill and its observer', async () => {
+    const app = await readSource('../demo/src/App.svelte');
+    const index = await readSource('../src/lib/index.js');
 
-    expect(header).toContain('delayDuration={300}');
-    expect(footer).toContain('delayDuration={300}');
-    expect(iconLink).toContain('hover:bg-muted');
-    expect(iconLink).toContain('focus-visible:outline-2');
-    expect(iconLink).toContain('size-11');
+    expect(app).not.toContain('StickyPill');
+    expect(app).not.toContain('OPEN SOURCE TOOLKIT');
+    expect(index).not.toContain('StickyPill');
   });
 
   it('keeps the footer layout and accessible resource navigation', async () => {

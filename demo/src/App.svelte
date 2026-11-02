@@ -3,8 +3,7 @@
   import { SiGithub } from '@icons-pack/svelte-simple-icons';
   import SiteFooter from '$lib/SiteFooter.svelte';
   import SiteHeader from '$lib/SiteHeader.svelte';
-  import StickyPill from '$lib/StickyPill.svelte';
-  import type { SiteFooterLink } from '$lib/types.js';
+    import type { SiteFooterLink } from '$lib/types.js';
   import ArticlePreview from './components/ArticlePreview.svelte';
   import { createDemoThemeState, createThemeToggleHandler } from './lib/theme-controller.js';
 
@@ -37,7 +36,6 @@
   />
 
   <main class="min-h-0 flex-1 py-8 sm:py-10">
-    <StickyPill label="OPEN SOURCE TOOLKIT" />
     <ArticlePreview />
   </main>
 

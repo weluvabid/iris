@@ -80,7 +80,7 @@
   --card-foreground: #20201e;
   --popover: #ffffff;
   --popover-foreground: #20201e;
-  --primary: #d96c16;
+  --primary: #242424;
   --primary-foreground: #ffffff;
   --secondary: #f1f0ec;
   --secondary-foreground: #20201e;
@@ -91,16 +91,9 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: #e8e7e1;
   --input: #e8e7e1;
-  --ring: #d96c16;
-  --brand: #d96c16;
+  --ring: #737373;
   --selection-background: #090906;
   --selection-foreground: #e8e7e3;
-  --iris-gradient-orange: #c94f18;
-  --iris-gradient-amber: #bd8a32;
-  --iris-gradient-green: #679b78;
-  --iris-gradient-teal: #16889a;
-  --iris-header-border-opacity: 0.62;
-  --iris-header-glow-opacity: 0.11;
   --font-sans: 'Atkinson Hyperlegible', 'Arial', 'Helvetica Neue', sans-serif;
   --font-mono:
     ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'DejaVu Sans Mono',
@@ -113,7 +106,7 @@
   --chart-5: oklch(0.72 0.16 70);
   --sidebar: #f1f0ec;
   --sidebar-foreground: #20201e;
-  --sidebar-primary: #d96c16;
+  --sidebar-primary: #242424;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #eae9e3;
   --sidebar-accent-foreground: #20201e;
@@ -137,8 +130,8 @@
   --card-foreground: #e8e7e3;
   --popover: #11110d;
   --popover-foreground: #e8e7e3;
-  --primary: #fc8b24;
-  --primary-foreground: #17100a;
+  --primary: #e8e7e3;
+  --primary-foreground: #090906;
   --secondary: #191914;
   --secondary-foreground: #e8e7e3;
   --muted: #191914;
@@ -147,19 +140,12 @@
   --accent-foreground: #e8e7e3;
   --border: #27271f;
   --input: #27271f;
-  --ring: #fc8b24;
-  --brand: #fc8b24;
+  --ring: #a3a3a3;
   --selection-background: #fafaf8;
   --selection-foreground: #20201e;
-  --iris-gradient-orange: #ff5a1f;
-  --iris-gradient-amber: #d8a342;
-  --iris-gradient-green: #83a985;
-  --iris-gradient-teal: #36b9c2;
-  --iris-header-border-opacity: 0.52;
-  --iris-header-glow-opacity: 0.2;
   --sidebar: #11110d;
   --sidebar-foreground: #e8e7e3;
-  --sidebar-primary: #fc8b24;
+  --sidebar-primary: #e8e7e3;
   --sidebar-primary-foreground: #17100a;
   --sidebar-accent: #191914;
   --sidebar-accent-foreground: #e8e7e3;
@@ -206,73 +192,26 @@
   }
 }
 
-@keyframes iris-status-breathe {
-  0%,
-  100% {
-    opacity: 0.72;
-    box-shadow: 0 0 0 0 color-mix(in oklch, var(--brand) 22%, transparent);
-  }
-  50% {
-    opacity: 1;
-    box-shadow: 0 0 0 5px color-mix(in oklch, var(--brand) 8%, transparent);
-  }
-}
-
-/* The shell stays opaque; only its perimeter receives the gradient treatment. */
 .iris-header {
   position: sticky;
   top: 0.75rem;
   isolation: isolate;
-  border: 1px solid transparent;
+  border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent);
   backdrop-filter: blur(10px);
-  background: hsl(var(--background) / 0.94);
-  background-clip: padding-box;
+  background: color-mix(in srgb, var(--background) 94%, transparent);
+  transition: border-color 160ms ease;
 }
 
-.iris-header::before,
-.iris-header::after {
-  position: absolute;
-  inset: -1px;
-  z-index: -1;
-  border-radius: inherit;
-  padding: 1px;
-  pointer-events: none;
-  content: '';
-  background: linear-gradient(
-    110deg,
-    color-mix(
-        in srgb,
-        var(--iris-gradient-orange) calc(var(--iris-header-border-opacity) * 100%),
-        transparent
-      )
-      0%,
-    color-mix(
-        in srgb,
-        var(--iris-gradient-amber) calc(var(--iris-header-border-opacity) * 100%),
-        transparent
-      )
-      34%,
-    color-mix(
-        in srgb,
-        var(--iris-gradient-green) calc(var(--iris-header-border-opacity) * 100%),
-        transparent
-      )
-      66%,
-    color-mix(
-        in srgb,
-        var(--iris-gradient-teal) calc(var(--iris-header-border-opacity) * 100%),
-        transparent
-      )
-      100%
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+.iris-header:hover {
+  border-color: color-mix(in srgb, var(--foreground) 26%, transparent);
 }
 
-.iris-header::after {
-  filter: blur(7px);
-  opacity: var(--iris-header-glow-opacity);
+.iris-header:focus-within {
+  border-color: color-mix(in srgb, var(--foreground) 42%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iris-header {
+    transition: none;
+  }
 }

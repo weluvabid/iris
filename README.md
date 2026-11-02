@@ -48,7 +48,7 @@ Iris exposes shadcn-compatible semantic tokens in light and dark modes. Add or r
 
 ```svelte
 <script lang="ts">
-  import { SiteHeader, SiteFooter, StickyPill } from '@weluvabid/iris/components';
+  import { SiteHeader, SiteFooter } from '@weluvabid/iris/components';
   import type { SiteFooterLink, SiteHeaderLink } from '@weluvabid/iris/components';
 
   let darkMode = $state(false);
@@ -74,8 +74,6 @@ Iris exposes shadcn-compatible semantic tokens in light and dark modes. Add or r
     onToggleTheme={() => (darkMode = !darkMode)}
   />
 
-  <StickyPill label="OPEN SOURCE PROJECT" />
-
   <main><!-- Project-owned content. --></main>
 
   <SiteFooter brand="My Project" links={footerLinks} />
@@ -96,14 +94,6 @@ Iris exposes shadcn-compatible semantic tokens in light and dark modes. Add or r
 - `brand` (required): accessible brand link text.
 - `homeHref`, `logoSrc`: optional brand destination and logo.
 - `links`: `{ label, href, external?, title?, ariaLabel?, icon? }[]`.
-
-### `StickyPill`
-
-- `label` (required): text displayed in the pill.
-- `compactOnScroll` (default `true`): observe a one-pixel sentinel and compact the pill after it crosses the header threshold.
-- `children`: optional Svelte snippet to replace the label content.
-
-Icon-only links use accessible names and shared tooltips. Keyboard focus is visible; hover surfaces remain neutral. The perimeter gradient is limited to the header outline, while the wordmark remains monochrome.
 
 ## Icons
 

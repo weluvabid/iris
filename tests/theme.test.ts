@@ -9,9 +9,9 @@ describe('Iris theme contract', () => {
     const css = await readTheme();
 
     expect(css).toContain('--background: #fafaf8');
-    expect(css).toContain('--primary: #d96c16');
+    expect(css).toContain('--primary: #242424');
     expect(css).toContain('--background: #090906');
-    expect(css).toContain('--primary: #fc8b24');
+    expect(css).toContain('--primary: #e8e7e3');
     expect(css).toContain('@theme inline');
     expect(css).toContain("@source '../lib'");
     expect(css).toContain("'Atkinson Hyperlegible'");
@@ -29,23 +29,13 @@ describe('Iris theme contract', () => {
     await access(new URL('../src/styles/fonts/LICENSE.txt', import.meta.url));
   });
 
-  it('keeps status animation accessible to reduced-motion users', async () => {
-    const css = await readTheme();
-    const pill = await readFile(new URL('../src/lib/StickyPill.svelte', import.meta.url), 'utf8');
-
-    expect(css).toContain('@keyframes iris-status-breathe');
-    expect(pill).toContain('motion-reduce:animate-none');
-  });
-
-  it('keeps the header opaque and confines the gradient to its perimeter', async () => {
+  it('uses a restrained monochrome header border', async () => {
     const css = await readTheme();
 
-    expect(css).toContain('.iris-header::before');
-    expect(css).toContain('.iris-header::after');
-    expect(css).toContain('mask-composite: exclude');
-    expect(css).toContain('background: hsl(var(--background) / 0.94)');
-    expect(css).toContain('--iris-header-glow-opacity: 0.11');
-    expect(css).toContain('--iris-header-glow-opacity: 0.2');
+    expect(css).toContain('border: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent)');
+    expect(css).toContain('.iris-header:hover');
+    expect(css).not.toContain('iris-gradient-');
+    expect(css).not.toContain('iris-status-breathe');
   });
 
   it('resolves explicit preferences before the system preference', () => {

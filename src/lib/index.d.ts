@@ -1,4 +1,4 @@
-import type { Component, Snippet } from 'svelte';
+import type { Component } from 'svelte';
 import type { SiteFooterLink, SiteHeaderLink } from './types.js';
 
 export type { SiteFooterLink, SiteHeaderLink };
@@ -21,15 +21,8 @@ export type SiteFooterProps = {
   links?: SiteFooterLink[];
 };
 
-export type StickyPillProps = {
-  label: string;
-  compactOnScroll?: boolean;
-  children?: Snippet;
-};
-
 export declare const SiteHeader: Component<SiteHeaderProps>;
 export declare const SiteFooter: Component<SiteFooterProps>;
-export declare const StickyPill: Component<StickyPillProps>;
 
 export * as Accordion from './components/ui/accordion/index.js';
 export * as Alert from './components/ui/alert/index.js';
