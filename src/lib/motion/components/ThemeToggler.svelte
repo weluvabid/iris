@@ -17,6 +17,7 @@
 
   let currentTheme = $state(theme);
 
+  // Keep local interaction state in sync when the parent changes the prop.
   $effect(() => {
     currentTheme = theme;
   });

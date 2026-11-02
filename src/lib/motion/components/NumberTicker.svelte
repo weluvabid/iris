@@ -20,10 +20,11 @@
   let frame = 0;
   let previous = value;
 
+  const safeDecimals = $derived(Math.min(20, Math.max(0, Math.trunc(decimals) || 0)));
   const formatter = $derived(
     new Intl.NumberFormat(locale, {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals,
+      minimumFractionDigits: safeDecimals,
+      maximumFractionDigits: safeDecimals,
     }),
   );
 

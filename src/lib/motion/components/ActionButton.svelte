@@ -34,12 +34,12 @@
   let timer: ReturnType<typeof setTimeout> | undefined;
   let generation = 0;
 
-  const labels: Record<ActionState, string> = {
+  const labels = $derived<Record<ActionState, string>>({
     idle: idleLabel,
     loading: loadingLabel,
     success: successLabel,
     error: errorLabel,
-  };
+  });
 
   async function run() {
     if (state === 'loading' || disabled) return;

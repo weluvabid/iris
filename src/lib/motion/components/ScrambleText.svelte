@@ -19,6 +19,14 @@
   let timer: ReturnType<typeof setInterval> | undefined;
   let startedAt = 0;
 
+  // The source text is a prop and may change while this component is mounted.
+  $effect(() => {
+    const currentText = text;
+    if (timer) clearInterval(timer);
+    timer = undefined;
+    display = currentText;
+  });
+
   function stop() {
     if (timer) clearInterval(timer);
     timer = undefined;
@@ -29,11 +37,15 @@
     stop();
     if (prefersReducedMotion() || typeof window === 'undefined') return;
 
+    const source = text;
+    const totalDuration = Math.max(120, duration);
     startedAt = performance.now();
+
     timer = setInterval(() => {
-      const progress = Math.min(1, (performance.now() - startedAt) / Math.max(120, duration));
-      const resolved = Math.floor(progress * text.length);
-      display = [...text]
+      const progress = Math.min(1, (performance.now() - startedAt) / totalDuration);
+      const resolved = Math.floor(progress * source.length);
+
+      display = [...source]
         .map((character, index) => {
           if (index < resolved || character === ' ') return character;
           return alphabet[Math.floor(Math.random() * alphabet.length)];
@@ -44,17 +56,34 @@
     }, 32);
   }
 
-  onDestroy(stop);
+  onDestroy(() => {
+    if (timer) clearInterval(timer);
+  });
 </script>
 
-<button>
+<button
+  type="button"
   class={className}
   aria-label={text}
-  tabindex={trigger === 'focus' || trigger === 'both' ? 0 : undefined}
   onpointerenter={trigger === 'hover' || trigger === 'both'
     ? (event: PointerEvent) => event.pointerType === 'mouse' && scramble()
     : undefined}
   onpointerleave={trigger === 'hover' || trigger === 'both' ? stop : undefined}
   onfocus={trigger === 'focus' || trigger === 'both' ? scramble : undefined}
-  onblur={trigger === 'focus' || trigger === 'both' ? stop : undefined}>{display}</button
+  onblur={trigger === 'focus' || trigger === 'both' ? stop : undefined}
 >
+  {display}
+</button>
+
+<style>
+  button {
+    appearance: none;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    cursor: inherit;
+  }
+</style>

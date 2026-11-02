@@ -21,16 +21,16 @@
   } = $props();
 
   let navElement: HTMLElement;
-  let links: HTMLAnchorElement[] = [];
+  let links = $state<HTMLAnchorElement[]>([]);
   let indicator = $state({ x: 0, width: 0, visible: false });
   let observer: ResizeObserver | undefined;
+  const activeIndex = $derived(items.findIndex((item) => item.href === activeHref));
 
-  async function measure() {
+  async function measure(index = activeIndex) {
     await tick();
     if (!navElement) return;
 
-    const activeIndex = items.findIndex((item) => item.href === activeHref);
-    const activeLink = activeIndex >= 0 ? links[activeIndex] : undefined;
+    const activeLink = index >= 0 ? links[index] : undefined;
     if (!activeLink) {
       indicator = { ...indicator, visible: false };
       return;
@@ -46,9 +46,10 @@
   }
 
   $effect(() => {
-    items;
-    activeHref;
-    measure().catch((error: unknown) => console.warn('Iris navigation measurement failed.', error));
+    const index = activeIndex;
+    void measure(index).catch((error: unknown) =>
+      console.warn('Iris navigation measurement failed.', error),
+    );
   });
 
   onMount(() => {
