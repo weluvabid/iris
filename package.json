@@ -9,7 +9,7 @@
     "pnpm": ">=12.0.0"
   },
   "files": [
-    "src/lib",
+    "dist",
     "src/styles",
     "src/theme.js",
     "src/theme.d.ts",
@@ -18,16 +18,16 @@
   ],
   "exports": {
     ".": {
-      "types": "./src/lib/index.d.ts",
-      "svelte": "./src/lib/index.js",
-      "import": "./src/lib/index.js",
-      "default": "./src/lib/index.js"
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./components": {
-      "types": "./src/lib/index.d.ts",
-      "svelte": "./src/lib/index.js",
-      "import": "./src/lib/index.js",
-      "default": "./src/lib/index.js"
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./theme": {
       "types": "./src/theme.d.ts",
@@ -37,34 +37,34 @@
     "./theme.css": "./src/styles/theme.css",
     "./package.json": "./package.json",
     "./components/ui/*": {
-      "types": "./src/lib/components/ui/*/index.ts",
-      "svelte": "./src/lib/components/ui/*/index.js",
-      "import": "./src/lib/components/ui/*/index.js",
-      "default": "./src/lib/components/ui/*/index.js"
+      "types": "./dist/components/ui/*/index.d.ts",
+      "svelte": "./dist/components/ui/*/index.js",
+      "import": "./dist/components/ui/*/index.js",
+      "default": "./dist/components/ui/*/index.js"
     },
     "./lucide": {
-      "types": "./src/lib/icons/lucide.d.ts",
-      "svelte": "./src/lib/icons/lucide.js",
-      "import": "./src/lib/icons/lucide.js",
-      "default": "./src/lib/icons/lucide.js"
+      "types": "./dist/icons/lucide.d.ts",
+      "svelte": "./dist/icons/lucide.js",
+      "import": "./dist/icons/lucide.js",
+      "default": "./dist/icons/lucide.js"
     },
     "./simple-icons": {
-      "types": "./src/lib/icons/simple-icons.d.ts",
-      "svelte": "./src/lib/icons/simple-icons.js",
-      "import": "./src/lib/icons/simple-icons.js",
-      "default": "./src/lib/icons/simple-icons.js"
+      "types": "./dist/icons/simple-icons.d.ts",
+      "svelte": "./dist/icons/simple-icons.js",
+      "import": "./dist/icons/simple-icons.js",
+      "default": "./dist/icons/simple-icons.js"
     },
     "./data-table": {
-      "types": "./src/lib/data-table.d.ts",
-      "svelte": "./src/lib/data-table.js",
-      "import": "./src/lib/data-table.js",
-      "default": "./src/lib/data-table.js"
+      "types": "./dist/data-table.d.ts",
+      "svelte": "./dist/data-table.js",
+      "import": "./dist/data-table.js",
+      "default": "./dist/data-table.js"
     },
     "./hooks": {
-      "types": "./src/lib/hooks.d.ts",
-      "svelte": "./src/lib/hooks.js",
-      "import": "./src/lib/hooks.js",
-      "default": "./src/lib/hooks.js"
+      "types": "./dist/hooks.d.ts",
+      "svelte": "./dist/hooks.js",
+      "import": "./dist/hooks.js",
+      "default": "./dist/hooks.js"
     }
   },
   "sideEffects": [
@@ -82,9 +82,10 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "check:pack": "node ./scripts/check-pack.mjs",
-    "check": "pnpm lint && pnpm format:check && pnpm check:svelte && pnpm test && pnpm build:demo && pnpm check:pack",
+    "check": "pnpm lint && pnpm format:check && pnpm check:svelte && pnpm test && pnpm build && pnpm build:demo && pnpm check:pack",
     "prepare": "node ./scripts/install-hooks.mjs",
-    "check:svelte": "svelte-check --tsconfig ./tsconfig.json"
+    "check:svelte": "svelte-check --tsconfig ./tsconfig.json",
+    "build": "svelte-package --input src/lib --output dist --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
     "@eslint/js": "9.39.0",
@@ -104,7 +105,8 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.46.0",
     "vite": "^7.3.7",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "@sveltejs/package": "^2.5.8"
   },
   "peerDependencies": {
     "svelte": "^5.0.0",

@@ -15,7 +15,7 @@ export default defineConfig({
     }),
   ],
   build: {
-    outDir: '../dist',
+    outDir: '../dist-demo',
     emptyOutDir: true,
     target: 'es2022',
     minify: 'esbuild',

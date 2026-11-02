@@ -177,7 +177,7 @@ pnpm install
 pnpm dev
 ```
 
-The demo uses its own `vite.demo.config.ts`; its Vite root is `demo/`. The library validation and package lifecycle do not depend on the demo's HTML entry point.
+The demo uses its own `vite.demo.config.ts`; its Vite root is `demo/`. The library package is generated with the official `svelte-package` tool. Its packaging lifecycle does not depend on the demo's HTML entry point.
 
 Validation and demo building are intentionally separate:
 
@@ -186,7 +186,7 @@ pnpm check:svelte # Run Svelte and TypeScript diagnostics.
 pnpm build:demo   # Build the demo application into dist/.
 ```
 
-Svelte diagnostics are handled by the official `svelte-check` CLI. The demo remains an independent Vite application and does not participate in library validation.
+Svelte diagnostics are handled by the official `svelte-check` CLI. Library packaging is handled by `svelte-package`, which resolves SvelteKit `$lib` aliases into package-relative imports. The demo remains an independent Vite application and does not participate in library packaging.
 
 Run all quality gates with:
 
@@ -194,11 +194,11 @@ Run all quality gates with:
 pnpm check
 ```
 
-The check runs ESLint, Prettier, Svelte/TypeScript diagnostics, unit tests, the demo production build, and npm package-content validation. Git hooks enforce the fast quality gates and Conventional Commit subjects.
+The check runs ESLint, Prettier, Svelte/TypeScript diagnostics, unit tests, the library package build, the demo production build, and npm package-content validation. Git hooks enforce the fast quality gates and Conventional Commit subjects.
 
 ## Package contents
 
-The npm package contains only `src/lib`, `src/styles`, theme helpers and declarations, the README, and the MIT license. Demo files, repository scripts, tests, workflows, and configuration are excluded.
+The npm package contains generated library files in `dist/`, theme styles and fonts in `src/styles/`, theme helpers and declarations, the README, and the MIT license. Demo files, repository scripts, tests, workflows, and configuration are excluded.
 
 ## License
 

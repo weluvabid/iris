@@ -2,3 +2,5 @@ node_modules
 coverage
 dist
 pnpm-lock.yaml
+**/.svelte-kit/**
+**/dist-demo/**

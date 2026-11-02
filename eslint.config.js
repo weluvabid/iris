@@ -9,6 +9,7 @@ export default tseslint.config(
       '**/node_modules/**',
       '**/coverage/**',
       '**/dist/**',
+      '**/dist-demo/**',
       '**/.svelte-kit/**',
       'src/lib/components/data-table/**',
       'src/lib/hooks/use-data-table-filters.svelte.ts',
