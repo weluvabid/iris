@@ -1,6 +1,6 @@
 {
   "name": "@weluvabid/iris",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Preconfigured Svelte 5 UI foundation with shadcn-svelte components, icons, data-table filters, theme tokens, and site-shell components.",
   "license": "MIT",
   "type": "module",
