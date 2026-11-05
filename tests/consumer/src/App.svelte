@@ -44,7 +44,15 @@
 </script>
 
 <main data-api-count={publicApi.length}>
+  <SiteHeader>
+    <a href="/" aria-label="Home">Brand</a>
+    <nav aria-label="Primary navigation"><a href="/docs">Docs</a></nav>
+  </SiteHeader>
   <Button.Root>Root entry point</Button.Root>
+  <SiteFooter>
+    <span>Copyright</span>
+    <nav aria-label="Footer navigation"><a href="/privacy">Privacy</a></nav>
+  </SiteFooter>
   <ActionButton idleLabel="Run" onaction={() => Promise.resolve()} />
   <NavIndicator items={[{ label: 'Home', href: '/' }]} activeHref="/" />
   <NumberTicker value={42} />

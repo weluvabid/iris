@@ -48,51 +48,41 @@ Iris exposes shadcn-compatible semantic tokens in light and dark modes. Add or r
 ```svelte
 <script lang="ts">
   import { SiteHeader, SiteFooter } from '@weluvabid/iris/components';
-  import type { SiteFooterLink, SiteHeaderLink } from '@weluvabid/iris/components';
-
-  let darkMode = $state(false);
-
-  const headerLinks: SiteHeaderLink[] = [
-    { label: 'Documentation', href: '/docs' },
-    { label: 'API', href: '/api' },
-  ];
-
-  const footerLinks: SiteFooterLink[] = [
-    { label: 'GitHub', href: 'https://github.com/owner/repository', external: true },
-    { label: 'Issues', href: 'https://github.com/owner/repository/issues', external: true },
-  ];
+  import { Menu, Search } from '@weluvabid/iris/lucide';
 </script>
 
 <div class="mx-auto w-full max-w-6xl px-4 sm:px-6">
-  <SiteHeader
-    brand="My Project"
-    homeHref="/"
-    githubUrl="https://github.com/owner/repository"
-    links={headerLinks}
-    {darkMode}
-    onToggleTheme={() => (darkMode = !darkMode)}
-  />
+  <SiteHeader>
+    <a href="/" aria-label="My Project home">My Project</a>
+    <nav aria-label="Primary navigation" class="flex items-center gap-3">
+      <a href="/docs">Documentation</a>
+      <a href="/api">API</a>
+      <button aria-label="Search"><Search /></button>
+      <button aria-label="Open menu"><Menu /></button>
+    </nav>
+  </SiteHeader>
 
   <main><!-- Project-owned content. --></main>
 
-  <SiteFooter brand="My Project" links={footerLinks} />
+  <SiteFooter>
+    <span>© My Project</span>
+    <nav aria-label="Footer navigation">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </nav>
+  </SiteFooter>
 </div>
 ```
 
 ### `SiteHeader`
 
-- `brand` (required): accessible brand link text.
-- `homeHref`, `logoSrc`, `logoAlt`: brand destination and optional logo.
-- `links`: `{ label, href, external?, title?, ariaLabel?, icon? }[]`.
-- `githubUrl`: optional GitHub icon link.
-- `darkMode`: current theme state.
-- `onToggleTheme`: theme toggle callback.
+`SiteHeader` provides the sticky, translucent, rounded header shell. Its required Svelte 5 `children` snippet owns the entire inner layout: brand, navigation, menus, actions, responsive controls, and their positioning. Iris does not impose a header information architecture.
 
 ### `SiteFooter`
 
-- `brand` (required): accessible brand link text.
-- `homeHref`, `logoSrc`: optional brand destination and logo.
-- `links`: `{ label, href, external?, title?, ariaLabel?, icon? }[]`.
+`SiteFooter` provides the themed footer shell and border. Its required `children` snippet owns the entire inner layout and navigation. Use ordinary Svelte markup and any components you prefer inside either shell.
+
+Both components preserve their outer styling; the demo shows the original Iris arrangement built from the composable shell components.
 
 ## Motion
 

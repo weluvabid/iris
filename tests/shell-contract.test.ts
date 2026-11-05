@@ -14,6 +14,26 @@ describe('Iris shell contract', () => {
     expect(header).toContain('backdrop-blur-[10px]');
     expect(header).toContain('bg-background/72');
     expect(header).toContain('border-foreground/22');
+    expect(header).toContain('{@render children()}');
+  });
+
+  it('exposes fully composable header and footer shells', async () => {
+    const header = await readSource('../src/lib/SiteHeader.svelte');
+    const footer = await readSource('../src/lib/SiteFooter.svelte');
+    const declarations = await readSource('../src/lib/index.d.ts');
+    const demo = await readSource('../demo/src/App.svelte');
+
+    for (const source of [header, footer]) {
+      expect(source).toContain("import type { Snippet } from 'svelte'");
+      expect(source).toContain('children: Snippet');
+      expect(source).toContain('{@render children()}');
+    }
+
+    expect(declarations).toContain('children: Snippet');
+    expect(demo).toContain('<SiteHeader>');
+    expect(demo).toContain('<SiteFooter>');
+    expect(demo).toContain('<BrandLink brand="iris"');
+    expect(demo).toContain('<HeaderNavigation');
   });
 
   it('uses monochrome borders and accessible custom tooltips for shell actions', async () => {
@@ -24,6 +44,7 @@ describe('Iris shell contract', () => {
     const themeToggle = await readSource('../src/lib/components/shell/ThemeToggle.svelte');
 
     expect(header).toContain('border-foreground/22');
+    expect(header).toContain('{@render children()}');
     expect(theme).not.toContain('iris-gradient-');
     expect(brand).toContain('text-foreground');
     expect(iconLink).toContain('hover:bg-muted');
@@ -61,9 +82,7 @@ describe('Iris shell contract', () => {
 
     expect(footer).toContain('flex flex-wrap items-center justify-between gap-4');
     expect(footer).toContain('border-t py-6 text-sm');
-    expect(footer).toContain('aria-label="Project resources"');
-    expect(footer).toContain('tooltip={link.title ?? link.label}');
-    expect(footer).not.toContain('title={link.title}');
+    expect(footer).toContain('{@render children()}');
 
     const iconLink = await readSource('../src/lib/components/shell/IconLink.svelte');
 

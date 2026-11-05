@@ -1,24 +1,14 @@
-import type { Component } from 'svelte';
+import type { Component, Snippet } from 'svelte';
 import type { SiteFooterLink, SiteHeaderLink } from './types.js';
 
 export type { SiteFooterLink, SiteHeaderLink };
 
 export type SiteHeaderProps = {
-  brand: string;
-  homeHref?: string;
-  logoSrc?: string;
-  logoAlt?: string;
-  links?: SiteHeaderLink[];
-  githubUrl?: string;
-  darkMode: boolean;
-  onToggleTheme: () => void;
+  children: Snippet;
 };
 
 export type SiteFooterProps = {
-  brand: string;
-  homeHref?: string;
-  logoSrc?: string;
-  links?: SiteFooterLink[];
+  children: Snippet;
 };
 
 export declare const SiteHeader: Component<SiteHeaderProps>;
