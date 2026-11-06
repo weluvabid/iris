@@ -22,7 +22,10 @@
     spotlight,
   } from '@weluvabid/iris/motion';
 
+  const sonnerToast = Components.Sonner.toast;
   const publicApi = [
+    Components.Sonner.Toaster,
+    sonnerToast,
     DebouncedInput,
     SiteFooter,
     SiteHeader,
@@ -44,11 +47,17 @@
 </script>
 
 <main data-api-count={publicApi.length}>
+  <Components.Sonner.Toaster position="bottom-right" />
   <SiteHeader>
     <a href="/" aria-label="Home">Brand</a>
     <nav aria-label="Primary navigation"><a href="/docs">Docs</a></nav>
   </SiteHeader>
-  <Button.Root>Root entry point</Button.Root>
+  <Button.Root
+    onclick={() =>
+      sonnerToast.success('Consumer Sonner API works', {
+        description: 'Published package consumer smoke test.',
+      })}>Root entry point</Button.Root
+  >
   <SiteFooter>
     <span>Copyright</span>
     <nav aria-label="Footer navigation"><a href="/privacy">Privacy</a></nav>

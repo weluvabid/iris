@@ -17,6 +17,7 @@
   toastOptions={{
     classes: {
       toast: 'cn-toast',
+      description: 'text-muted-foreground !opacity-100',
     },
   }}
   {...restProps}

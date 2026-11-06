@@ -72,12 +72,28 @@ describe('Iris theme contract', () => {
 
     for (const block of [light, dark]) {
       const foreground = readToken(block, '--muted-foreground');
-      const backgrounds = [readToken(block, '--background'), readToken(block, '--muted')];
+      const backgrounds = [
+        readToken(block, '--background'),
+        readToken(block, '--muted'),
+        readToken(block, '--popover'),
+      ];
 
       for (const background of backgrounds) {
         expect(contrastRatio(foreground, background)).toBeGreaterThanOrEqual(4.5);
       }
     }
+  });
+
+  it('keeps Sonner descriptions fully opaque and theme-token driven', async () => {
+    const sonner = await readFile(
+      new URL('../src/lib/components/ui/sonner/sonner.svelte', import.meta.url),
+      'utf8',
+    );
+
+    expect(sonner).toContain("description: 'text-muted-foreground !opacity-100'");
+    expect(sonner).not.toMatch(
+      /description:\s*['"][^'"]*(?:opacity-(?!100\b)\d+|#[0-9a-fA-F]{3,8})/,
+    );
   });
 
   it('does not make external font requests from the package or demo', async () => {
