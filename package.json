@@ -138,7 +138,7 @@
     "mode-watcher": "^1.1.0",
     "paneforge": "^1.0.2",
     "runed": "^0.38.0",
-    "shiki": "^3.23.0",
+    "shiki": "^4.6.0",
     "svelte-sonner": "^1.2.2",
     "sveltekit-superforms": "^3.1.0",
     "tailwind-variants": "^3.3.1",
